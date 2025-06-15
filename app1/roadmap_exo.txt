@@ -1,0 +1,468 @@
+Roadmap exercices flutter firebase sqflite
+
+## 🟢 Débutant – Fondations Flutter
+
+---
+
+### 1. 🛠️ Installation de Flutter et Dart
+
+1. Installer Flutter SDK et Dart (site officiel).
+2. Configurer VS Code ou Android Studio.
+3. Exécuter `flutter doctor` et corriger les erreurs.
+4. Créer un projet avec `flutter create`.
+5. Lancer une app sur émulateur Android.
+6. Lancer sur un appareil physique Android.
+7. Tester sur navigateur web (`flutter run -d chrome`).
+8. Modifier le code et observer hot reload.
+9. Lire logs avec `flutter logs`.
+10. Créer une app minimale avec juste `Text("Hello Flutter")`.
+
+🔗 [Getting Started](https://docs.flutter.dev/get-started/install)
+
+---
+
+### 2. 📁 Structure d’un projet Flutter
+
+1. Identifier les dossiers `lib`, `test`, `android`, `ios`.
+2. Ajouter un fichier `utils.dart` dans `lib/`.
+3. Ajouter une image dans `assets/`, et l'enregistrer dans `pubspec.yaml`.
+4. Créer un dossier `widgets/` pour composants personnalisés.
+5. Lire les fichiers `main.dart`, `pubspec.yaml`, `build.gradle`.
+6. Ajouter un package externe (ex : `http`) dans `pubspec.yaml`.
+7. Comprendre le fichier `pubspec.lock`.
+8. Réorganiser ton app avec un fichier `home_screen.dart`.
+9. Générer des fichiers `.g.dart` avec `build_runner`.
+10. Expliquer les différences entre `lib/` et `test/`.
+
+🔗 [Project Structure](https://docs.flutter.dev/tools/structure)
+
+---
+
+### 3. 🎯 Fonction `main()` et `runApp()`
+
+1. Créer une fonction `main()` qui appelle `runApp()`.
+2. Afficher un `Text("Bienvenue")` en widget racine.
+3. Ajouter un `const` dans `runApp(MyApp())`.
+4. Passer un widget personnalisé dans `runApp()`.
+5. Ajouter une logique conditionnelle dans `main()` (auth ?).
+6. Séparer logique d'initialisation avant `runApp()` (ex : `WidgetsFlutterBinding.ensureInitialized()`).
+7. Ajouter `MaterialApp()` dans `runApp()`.
+8. Créer une classe `MyApp` avec `StatelessWidget`.
+9. Ajouter un `print()` dans `main()` pour déboguer.
+10. Modifier le thème dans `runApp()` via `MaterialApp(theme: ...)`.
+
+🔗 [Main & runApp](https://docs.flutter.dev/get-started/codelab)
+
+---
+
+### 4. 🧱 Widgets de base
+
+1. Créer une page avec `Scaffold`, `AppBar`, `Body`.
+2. Afficher une image avec `Image.asset()` et `Image.network()`.
+3. Organiser contenu verticalement avec `Column`.
+4. Organiser horizontalement avec `Row`.
+5. Ajouter des marges avec `Padding`.
+6. Utiliser `Container` pour styliser un `Text()`.
+7. Ajouter un bouton avec `ElevatedButton`.
+8. Mettre une icône avec `Icon(Icons.home)`.
+9. Changer la couleur du `Container` avec `color:`.
+10. Afficher une `Card` contenant un `ListTile`.
+
+🔗 [Widgets catalog](https://docs.flutter.dev/ui/widgets)
+
+---
+
+### 5. 🔁 Widgets `Stateless` vs `Stateful`
+
+1. Créer un `StatelessWidget` qui affiche un texte fixe.
+2. Créer un `StatefulWidget` qui affiche un compteur.
+3. Incrémenter une variable avec `setState()`.
+4. Rafraîchir un widget à chaque clic.
+5. Afficher une case cochée dynamique avec `Checkbox`.
+6. Gérer un `Switch` on/off.
+7. Rafraîchir une image aléatoire avec bouton.
+8. Créer un champ de texte avec `TextField`.
+9. Lier un `TextEditingController` à un `TextField`.
+10. Faire un formulaire simple avec `TextFormField`.
+
+🔗 [Stateful vs Stateless](https://docs.flutter.dev/development/ui/interactive)
+
+---
+
+### 6. 🧭 Navigation (pages)
+
+1. Créer deux écrans `HomeScreen` et `SecondScreen`.
+2. Utiliser `Navigator.push()` pour aller à la 2e page.
+3. Ajouter un bouton de retour avec `Navigator.pop()`.
+4. Passer des données d’un écran à l’autre.
+5. Retourner une valeur avec `pop(result)` et l'afficher.
+6. Ajouter une route nommée.
+7. Naviguer avec `Navigator.pushNamed()`.
+8. Gérer la pile d’écrans (ex: `pushReplacement()`).
+9. Créer une structure de menu avec `Drawer` + routes.
+10. Afficher un écran en plein écran avec `fullscreenDialog: true`.
+
+🔗 [Navigation](https://docs.flutter.dev/development/ui/navigation)
+
+---
+
+### 7. 🧠 Gestion de l’état local
+
+1. Créer un champ texte avec `TextField` et le récupérer.
+2. Réagir à la saisie avec `onChanged`.
+3. Créer un formulaire avec plusieurs `TextFormField`.
+4. Gérer l’état d’une case `Checkbox`.
+5. Gérer le focus d’un champ avec `FocusNode`.
+6. Cacher/afficher un mot de passe.
+7. Lier une valeur booléenne à un `Switch`.
+8. Activer bouton seulement si champs remplis.
+9. Réinitialiser tous les champs via `GlobalKey<FormState>`.
+10. Valider les données via `Form` + `validator`.
+
+🔗 [Forms & State](https://docs.flutter.dev/cookbook/forms/validation)
+
+---
+
+### 8. 🖥️ Responsiveness & Adaptabilité
+
+1. Adapter une UI avec `MediaQuery.of(context).size`.
+2. Créer une `Column` contenant un bouton qui s’étire (`Expanded`).
+3. Créer deux widgets côte à côte (`Row` + `Flexible`).
+4. Adapter des marges/paddings selon la taille de l’écran.
+5. Créer un layout mobile / tablette avec conditions.
+6. Cacher un widget si la largeur < 500 px.
+7. Utiliser `LayoutBuilder` pour taille dynamique.
+8. Adapter les tailles d’images (`BoxFit.contain`, `.cover`).
+9. Créer une grille responsive avec `GridView`.
+10. Utiliser `OrientationBuilder` pour landscape/portrait.
+
+🔗 [Responsive UI](https://docs.flutter.dev/ui/layout/adaptive)
+
+## 🟡 Niveau Intermédiaire (UI avancée & logique métier)
+
+### 9. Layouts complexes
+
+1. Afficher une `ListView.builder()` de 50 éléments.
+2. Créer une `GridView.count()` adaptative pour photos.
+3. Superposer deux images avec `Stack`.
+4. Utiliser `Wrap` pour un jeu de tags.
+5. Créer une carte produit avec `ListTile` dans `ListView`.
+6. Scroller horizontalement (`ListView.separated`).
+7. Implementer un carousel avec `PageView`.
+8. Créer un menu déroulant avec `ExpansionPanelList`.
+9. Afficher un chat (bulle alignée) dans `ListView`.
+10. Adapter un layout selon largeur d’écran.
+
+🔗 [Layouts Cookbook](https://docs.flutter.dev/development/ui/layout)
+
+---
+
+### 10. Thèmes & Styles
+
+1. Ajouter des polices personnalisées via `pubspec.yaml`.
+2. Migrer app en mode clair/sombre.
+3. Changer `ThemeData` globalement.
+4. Personnaliser `ElevatedButtonTheme`.
+5. Utiliser `TextTheme` pour titres.
+6. Dynamiser thème via `Provider`: changer couleurs à la volée.
+7. Intégrer logo dans `AppBar`.
+8. Créer `CardTheme` pour uniformiser cartes.
+9. Utiliser `IconTheme`.
+10. Faire un switch style « thème saisonnier ».
+
+🔗 [Themes and styling](https://docs.flutter.dev/development/ui/theme)
+
+---
+
+### 11. Gestion d’état avancée
+
+1. Implémenter compteur global avec `Provider`.
+2. Partager un booléen de connexion sur écrans avec `ChangeNotifier`.
+3. `CounterCubit` avec `flutter_bloc`.
+4. `Riverpod` pour liste de tâches persistées.
+5. Mettre à jour état lorsque l’app revient au premier plan.
+6. Utiliser `GetX` pour route plus produit de panier.
+7. `MultiProvider` pour produits + panier.
+8. `BlocListener` pour notifications.
+9. Migrez un `setState()` complexe vers `Provider`.
+10. Comparer `Provider` et `Bloc` sur même fonctionnalité.
+
+🔗 [State management](https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro)
+
+---
+
+### 12. Navigation avancée
+
+1. Utiliser `routes:` pour navigation nommée et retour personnalisé.
+2. Utiliser `onGenerateRoute` pour router dynamiquement.
+3. Passer un objet via `Navigator`.
+4. Gérer erreur 404 route manquante.
+5. Implémenter deep link Web-to-Flutter.
+6. Naviguer via `GoRouter` ou `auto_route`.
+7. Insérer sélecteur de thème dans route principale.
+8. Intégrer `Hero` animations lors du push.
+9. Maintenir le scroll position sur push/pop.
+10. Ajouter bottom navigation et navigation imbriquée.
+
+🔗 [Navigation and routing](https://docs.flutter.dev/development/ui/navigation)
+
+---
+
+### 13. Animations
+
+1. `AnimatedContainer` pour changement de couleur.
+2. `AnimatedOpacity` pour fade-in text.
+3. `AnimatedSwitcher` pour transition de liste.
+4. `Hero` animation entre deux écrans.
+5. Contrôler animation via `AnimationController`.
+6. Création d’un `ScaleTransition`.
+7. `FadeTransition` en entrée d’image.
+8. Utiliser `CurvedAnimation`.
+9. Custom painter animation (ex : barre de chargement).
+10. Synchroniser plusieurs animations via `AnimationController`.
+
+🔗 [Animations tutorial](https://docs.flutter.dev/development/ui/animations)
+
+---
+
+### 14. Internationalisation (i18n)
+
+1. Activer `flutter_localizations`.
+2. Créer fichiers `.arb` pour français/anglais.
+3. Changer langue via `Locale` au runtime.
+4. Traduire `AppBar.title`.
+5. Localiser dates/heures via `intl`.
+6. Traduire formulaires dynamiquement.
+7. Formater monnaies selon locale.
+8. Charger traductions dynamiquement (langues externes).
+9. Réagir au changement de langue système.
+10. Gérer RTL (langue bas à droite).
+
+🔗 [Internationalization](https://docs.flutter.dev/l10n)
+
+---
+
+### 15. Accessibilité
+
+1. Ajouter descriptions `Semantics`.
+2. Ajuster `textScaleFactor`.
+3. Tester luminosité contraste.
+4. Utiliser `excludeSemantics` dans listes.
+5. Ajouter étiquettes sur champs `TextFormField`.
+6. Gérer focus-accessible (clavier, talkback).
+7. Ajouter activeChildColor pour widgets sélectionnés.
+8. Tester avec émulateur talkback/VoiceOver.
+9. Vérifier zone tapable (minimum 48px).
+10. Utiliser `SemanticsService.announce`.
+
+🔗 [Accessibility](https://docs.flutter.dev/accessibility)
+
+---
+
+### 16. Formulaires complexes
+
+1. Créer `Form` avec `TextFormField` et validation.
+2. Ajouter `CheckboxListTile`.
+3. Utiliser `RadioListTile`.
+4. Ajouter `DropdownButtonFormField`.
+5. Contrôler focus avec `FocusNode`.
+6. Validation asynchrone (ex : dispo pseudo).
+7. Ajouter feedback en scroll automatique.
+8. Réinitialiser formulaire dynamiquement.
+9. Désactiver bouton jusqu’à validation correcte.
+10. Sousmettre via `Enter` + `onFieldSubmitted`.
+
+🔗 [Form & validation](https://docs.flutter.dev/cookbook/forms/validation)
+
+---
+
+## 🔵 Niveau Avancé (Intégration & plateformes)
+
+### 17. Appels HTTP & API
+
+1. GET vers API publique (`jsonplaceholder`).
+2. Parser JSON en modèle Dart.
+3. POST d’un nouvel objet.
+4. `FutureBuilder` pour affichage.
+5. Gérer erreurs d’API 400/500.
+6. Ajouter loader de pull-to-refresh.
+7. Cancelling request via `CancelToken` (dio).
+8. GET paginé avec infinite scroll.
+9. Ajouter headers (Auth Bearer token).
+10. Simuler réseau offline avec `Connectivity`.
+
+🔗 [Networking](https://docs.flutter.dev/cookbook/networking/fetch-data)
+
+---
+
+### 18. Bases locales
+
+1. Enregistrer un bool via `shared_preferences`.
+2. Stocker map en `shared_preferences`.
+3. Sqflite : CRUD sur produit.
+4. Liste de tâches avec Hive.
+5. Migration de Hive (versioning).
+6. TLS DB locale + réseau : afficher tâches si offline.
+7. Backup DB sur fichier local.
+8. Cache images via `cached_network_image`.
+9. Chiffrer Hive DB pour données sensibles.
+10. Utiliser `moor` ou `drift` pour ORM et queries.
+
+🔗 [Persistence](https://docs.flutter.dev/cookbook/persistence/keys)
+
+---
+
+### 19. Firebase
+
+1. Auth (email/mot de passe).
+2. Google Sign-In.
+3. Enregistrer utilisateur en Firestore.
+4. Lire liste de posts en temps réel.
+5. Ajouter Cloud Function (ex: timestamp).
+6. Stocker image via Storage.
+7. Notifications push (firebase\_messaging).
+8. Ré-authentification après suppression d’email.
+9. Règles Firestore selon roles.
+10. Multi-environnements (dev/staging/prod).
+
+🔗 [Firebase Flutter](https://firebase.flutter.dev/docs/overview)
+
+---
+
+### 20. Accès natif & plugins
+
+1. Prendre une photo avec `image_picker`.
+2. Obtenir GPS avec `geolocator`.
+3. Demander permissions runtime.
+4. Enregistrer fichier audio.
+5. Lire l’espace disque via `path_provider`.
+6. Télécharger fichier et l’enregistrer.
+7. Scanner QR code avec `qr_code_scanner`.
+8. Lire NFC/QR avec plugin.
+9. Utiliser plateforme channels pour appel natif.
+10. Widget preview du capteur avec `camera`.
+
+🔗 [Plugins & packages](https://docs.flutter.dev/development/packages-and-plugins/using-packages)
+
+---
+
+### 21. Packages personnalisés
+
+1. Créer un package dart simple.
+2. Ajouter widgets réutilisables.
+3. Écrire documentation dans `README.md`.
+4. Ajouter tests unitaires au package.
+5. Publier localement via `path: ../mon_package`.
+6. Ajouter package font Awesome.
+7. Versionner avec `pubspec.yaml`.
+8. Ajouter example usage.
+9. Intégrer package dans la compagnie.
+10. Préparer publication sur `pub.dev`.
+
+🔗 [Developing packages](https://docs.flutter.dev/development/packages-and-plugins/developing-packages)
+
+---
+
+### 22. Tests
+
+1. Unittest simple d’une fonction Dart.
+2. Widget test d’un bouton compteur.
+3. UI test avec `pumpWidget`.
+4. Test de navigation d’un formulaire.
+5. Mock HTTP pour tests.
+6. Intégration test “login→home”.
+7. Test de localisation.
+8. Test de performances.
+9. Coverage reporting.
+10. CI pipeline avec tests automatiques.
+
+🔗 [Testing Flutter](https://docs.flutter.dev/testing)
+
+---
+
+### 23. Performance & optimisation
+
+1. `RepaintBoundary` autour d’une carte.
+2. Lazy loading sur `ListView`.
+3. Pré-cache d’images.
+4. Détection des overbuilds (Flutter inspector).
+5. Time travel debugging.
+6. Profiling CPU/GPU.
+7. Refactor bottlenecks dans build().
+8. Batch setState avec `ValueListenableBuilder`.
+9. Minimiser overlays inutiles.
+10. Mesurer startup time (DevTools).
+
+🔗 [Flutter performance](https://docs.flutter.dev/perf/rendering/best-practices)
+
+---
+
+## 🔴 Niveau Expert (Production & publication)
+
+### 24. Architecture évolutive
+
+1. Refactoriser en Clean Architecture (data/domain/presentation).
+2. Dependency Injection (`get_it` ou `riverpod`).
+3. Implémenter TDD : écrire test → code.
+4. Séparer UI/Logique/DB.
+5. Ajouter `UseCase` ou `Interactor`.
+6. Couche abstraite de repository.
+7. Gestion d’erreurs au domaine.
+8. Ajout d’un logger centralisé.
+9. Utiliser un CI/CD pour analyse statique.
+10. Documentation API générée.
+
+🔗 [Architecting Flutter](https://docs.flutter.dev/development/data-and-backend/architecture)
+
+---
+
+### 25. CI/CD
+
+1. Créer workflow GitHub Actions.
+2. Automatiser `flutter test`.
+3. Publier artefact `.apk` sur release GitHub.
+4. Linting automatique.
+5. Code coverage upload.
+6. Build Android automatiquement.
+7. Build iOS (via Mac runner).
+8. Lancer tests d’intégration.
+9. Déploiement sur Firebase App Distribution.
+10. Notifications Slack/GitHub après build.
+
+🔗 [CI/CD with Flutter](https://docs.flutter.dev/deployment/cd)
+
+---
+
+### 26. Sécurité
+
+1. Stocker token via `flutter_secure_storage`.
+2. Utiliser HTTPS pour API.
+3. Ajouter captcha ou OTP sur login.
+4. Obfuscation de code release.
+5. Chiffrement packages locales.
+6. Validate les inputs malveillants.
+7. Mettre à jour règles Firebase.
+8. JWT + Refresh token.
+9. Analyse static de dépendances vulnérables.
+10. Bug bounty / Code scanning.
+
+🔗 [Secure apps](https://docs.flutter.dev/security)
+
+---
+
+### 27. Publication
+
+1. Générer `.apk` debug/release.
+2. Générer `.aab` pour Play Store.
+3. Configurer `build.gradle`.
+4. Configurer `Info.plist` iOS.
+5. Gérer profils de signature iOS.
+6. Archiver et exporter `.ipa`.
+7. Publier sur TestFlight.
+8. Soumettre sur App Store.
+9. Récupérer retour Apple review.
+10. Mettre à jour version/Changelog.
+
+🔗 [Build & release](https://docs.flutter.dev/deployment/android) /
+🔗 [iOS deployment](https://docs.flutter.dev/deployment/ios)
+

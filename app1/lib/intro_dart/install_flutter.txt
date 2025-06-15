@@ -1,0 +1,199 @@
+Voici un guide complet pour **installer Flutter + Dart** sur **Windows**, **macOS** et **Linux**, en expliquant étape par étape les points suivants :
+
+---
+
+## ✅ Étapes communes pour toutes les plateformes :
+
+### 1. 📦 **Télécharger Flutter SDK**
+
+* Rendez-vous sur : [https://flutter.dev/docs/get-started/install](https://flutter.dev/docs/get-started/install)
+* Choisissez votre OS : **Windows**, **macOS**, ou **Linux**.
+* Téléchargez le fichier `.zip` (Windows), `.tar.xz` (Linux), ou utilisez `git` (macOS/Linux).
+
+---
+
+## 🪟 Installation sur **Windows**
+
+### 🔹 1. Extraire le SDK Flutter
+
+* Dézippez le dossier téléchargé (ex : `flutter_windows_*.zip`) dans un emplacement stable, comme `C:\src\flutter\`.
+* ⚠️ **Ne placez pas dans `C:\Program Files`** (risque de permissions).
+
+### 🔹 2. Configurer les **variables d’environnement**
+
+1. Ouvre les **Paramètres système > Variables d’environnement**.
+2. Dans la section **Variables système**, trouve la variable `Path` et clique sur **Modifier**.
+3. Ajoute le chemin :
+   `C:\src\flutter\bin`
+
+### 🔹 3. Installer Android Studio (ou VS Code)
+
+* Android Studio :
+  Télécharge depuis [developer.android.com/studio](https://developer.android.com/studio).
+* VS Code :
+  Télécharge depuis [code.visualstudio.com](https://code.visualstudio.com)
+
+#### Plugins requis :
+
+* **Flutter** & **Dart** (dans Android Studio ou VS Code via le Marketplace/extensions).
+
+### 🔹 4. Installer l’**émulateur Android**
+
+1. Ouvrir Android Studio.
+2. Aller dans **Device Manager**.
+3. Créer un **Virtual Device (AVD)** avec un système Android.
+4. Démarrer l’émulateur.
+
+### 🔹 5. Vérification avec `flutter doctor`
+
+Dans **PowerShell** ou **CMD**, exécute :
+
+```bash
+flutter doctor
+```
+
+Cela vérifie :
+
+* Flutter
+* Dart
+* Android SDK
+* Android Studio
+* VS Code
+* Émulateurs
+* Git
+
+⚠️ Suis les suggestions affichées pour corriger les éventuels ❌.
+
+---
+
+## 🍎 Installation sur **macOS**
+
+### 🔹 1. Installer Homebrew (si pas déjà fait)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 🔹 2. Installer Git et unzip (si besoin)
+
+```bash
+brew install git unzip
+```
+
+### 🔹 3. Télécharger Flutter
+
+```bash
+cd ~/development
+git clone https://github.com/flutter/flutter.git -b stable
+```
+
+### 🔹 4. Ajouter Flutter à votre PATH
+
+Dans le fichier `~/.zshrc` ou `~/.bash_profile` :
+
+```bash
+export PATH="$PATH:$HOME/development/flutter/bin"
+```
+
+Puis :
+
+```bash
+source ~/.zshrc
+```
+
+### 🔹 5. Vérifier avec `flutter doctor`
+
+```bash
+flutter doctor
+```
+
+### 🔹 6. Installer **Xcode** pour iOS
+
+```bash
+xcode-select --install
+```
+
+Ensuite :
+
+* Ouvrir Xcode
+* Accepter les termes de licence
+* Installer les outils en ligne de commande
+
+### 🔹 7. Installer CocoaPods
+
+```bash
+sudo gem install cocoapods
+```
+
+### 🔹 8. Activer le développement iOS
+
+```bash
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -runFirstLaunch
+```
+
+### 🔹 9. Installer un simulateur iOS
+
+* Ouvrir Xcode > **Window > Devices and Simulators**.
+* Ajouter un simulateur (iPhone 14, iPhone SE...).
+
+---
+
+## 🐧 Installation sur **Linux (Ubuntu/Debian)**
+
+### 🔹 1. Installer les dépendances nécessaires
+
+```bash
+sudo apt update
+sudo apt install git curl unzip xz-utils zip libglu1-mesa
+```
+
+### 🔹 2. Télécharger Flutter
+
+```bash
+cd ~/development
+curl -O https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_x.x.x-stable.tar.xz
+tar xf flutter_linux_*.tar.xz
+```
+
+### 🔹 3. Ajouter Flutter au PATH
+
+Ajoute dans `~/.bashrc` ou `~/.zshrc` :
+
+```bash
+export PATH="$PATH:$HOME/development/flutter/bin"
+```
+
+Recharge avec :
+
+```bash
+source ~/.bashrc
+```
+
+### 🔹 4. Vérifier l’installation
+
+```bash
+flutter doctor
+```
+
+### 🔹 5. Installer Android Studio (ou VS Code)
+
+* [https://developer.android.com/studio](https://developer.android.com/studio)
+* Créer un AVD dans **Device Manager**.
+
+---
+
+## ✅ Conclusion
+
+Une fois ces étapes terminées :
+
+* ✅ Tu peux lancer un projet Flutter avec :
+
+```bash
+flutter create mon_app
+cd mon_app
+flutter run
+```
+
+Tu peux maintenant **développer sur Android, iOS (macOS seulement)** et le web.
+

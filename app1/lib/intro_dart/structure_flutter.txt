@@ -1,0 +1,190 @@
+Voici une explication **détaillée de la structure d’un projet Flutter** après avoir exécuté :
+
+```bash
+flutter create mon_app
+```
+
+ou créé via **Android Studio** 👇
+
+---
+
+## 🗂 Structure d’un projet Flutter
+
+```
+mon_app/
+├── android/
+├── ios/
+├── web/
+├── windows/
+├── linux/
+├── macos/
+├── lib/
+│   └── main.dart
+├── test/
+├── pubspec.yaml
+├── pubspec.lock
+├── .dart_tool/
+├── .idea/ (si Android Studio)
+├── .gitignore
+└── README.md
+```
+
+---
+
+### 📁 `lib/` : **Code Dart principal**
+
+* C’est **le cœur de l'application**.
+* Tous tes **widgets**, **logique métier** et **UI** vont ici.
+* Contient le fichier :
+
+  🔸 **`main.dart`** → point d’entrée de l’app :
+
+  ```dart
+  void main() => runApp(MyApp());
+  ```
+
+🟩 **💡 Tu vas passer 95% de ton temps ici.**
+
+---
+
+### 📁 `android/` : Configuration Android native
+
+* Contient le **code natif Kotlin/Java**, les **permissions**, le **gradle build system**.
+* Important pour :
+
+  * Ajouter des **permissions Android** (`AndroidManifest.xml`)
+  * Configurer les **notifications**, **Google Maps**, etc.
+  * Déployer `.apk` ou `.aab`.
+
+🔹 Fichiers clés :
+
+| Fichier               | Rôle                                             |
+| --------------------- | ------------------------------------------------ |
+| `AndroidManifest.xml` | Déclare les permissions et l'activité principale |
+| `build.gradle`        | Gère les dépendances et versions SDK             |
+| `MainActivity.kt`     | Point d’entrée Android natif                     |
+
+---
+
+### 📁 `ios/` : Configuration iOS native (nécessite macOS)
+
+* Contient le **code Swift/Objective-C**.
+* Sert à configurer :
+
+  * l'icône de l'app,
+  * le nom, version,
+  * les **permissions iOS** (micro, caméra),
+  * les **certificats de signature** pour publier sur App Store.
+
+🔹 Fichiers clés :
+
+| Fichier             | Rôle                                               |
+| ------------------- | -------------------------------------------------- |
+| `Runner.xcodeproj`  | Ouvre le projet dans Xcode                         |
+| `Info.plist`        | Déclare les permissions, nom de l’app, URL schemes |
+| `AppDelegate.swift` | Point d’entrée natif iOS                           |
+
+---
+
+### 📁 `web/`, `windows/`, `linux/`, `macos/`
+
+➡️ **Support multiplateforme** (Flutter 3+) :
+
+* Ces dossiers permettent de compiler et tester ton app sur **desktop** ou **web**.
+* Tu peux les ignorer si tu veux cibler uniquement mobile.
+
+---
+
+### 📁 `test/` : Tests unitaires et widget
+
+* Contient les **fichiers de tests Dart** (`*_test.dart`).
+* Exemple de test de widget :
+
+  ```dart
+  testWidgets('Mon widget teste...', (tester) async {
+    await tester.pumpWidget(MyApp());
+    expect(find.text('Bonjour'), findsOneWidget);
+  });
+  ```
+
+---
+
+### 📄 `pubspec.yaml` : Configuration du projet
+
+* 📦 Liste les **dépendances (packages)** utilisées.
+* 📁 Déclare les **assets** (images, polices, fichiers JSON).
+* Exemple :
+
+  ```yaml
+  dependencies:
+    flutter:
+      sdk: flutter
+    http: ^0.14.0
+
+  assets:
+    - assets/images/logo.png
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+  ```
+
+💡 C’est **le fichier de configuration central** de Flutter.
+
+---
+
+### 📄 `pubspec.lock`
+
+* Généré automatiquement après installation des dépendances.
+* Verrouille les **versions exactes** des packages pour garantir la reproductibilité.
+
+---
+
+### 📁 `.dart_tool/`
+
+* Dossier caché.
+* Contient les **informations du compilateur Dart**, les **résultats de build**, etc.
+* À ne pas modifier à la main.
+
+---
+
+### 📁 `.idea/`
+
+* Généré si tu ouvres ton projet avec **Android Studio**.
+* Contient la configuration de l’IDE.
+
+---
+
+### 📄 `.gitignore`
+
+* Liste des fichiers à **ne pas suivre avec Git** :
+
+  * fichiers temporaires,
+  * `.dart_tool/`, `.idea/`, `.packages`,
+  * fichiers `.apk` ou `.ipa`.
+
+---
+
+### 📄 `README.md`
+
+* Fichier de documentation (Markdown).
+* Sert à décrire ton projet, comment l’installer, l’utiliser.
+* Très utile sur GitHub.
+
+---
+
+## 🔍 Résumé visuel rapide
+
+| Dossier/Fichier         | Rôle principal               |
+| ----------------------- | ---------------------------- |
+| `lib/`                  | Code Dart (UI, logique)      |
+| `android/`, `ios/`      | Code natif Android/iOS       |
+| `pubspec.yaml`          | Dépendances, polices, assets |
+| `test/`                 | Tests automatiques           |
+| `web/`, `windows/`...   | Multiplateforme              |
+| `.dart_tool/`, `.idea/` | Fichiers système/IDE         |
+| `README.md`             | Description projet           |
+
+---
+
