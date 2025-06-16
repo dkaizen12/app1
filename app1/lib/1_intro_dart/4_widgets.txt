@@ -1,0 +1,132 @@
+Parfait ! Voici maintenant **comment organiser ton code Flutter proprement** en **déplaçant la logique de ton widget principal dans un autre fichier** que `main.dart`.
+
+---
+
+### 🎯 Objectif
+
+* Garder `main.dart` simple (point d’entrée seulement)
+* Déplacer le widget `CounterWidget` dans un fichier séparé (`counter_widget.dart`)
+* Appliquer une architecture modulaire et propre
+
+---
+
+## 🗂 Structure recommandée
+
+```
+lib/
+├── main.dart
+└── widgets/
+    └── counter_widget.dart
+```
+
+---
+
+## ✅ Étape 1 : `main.dart`
+
+```dart
+// lib/main.dart
+
+import 'package:flutter/material.dart';
+import 'widgets/counter_widget.dart'; // Import du fichier séparé
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Compteur avec fichier séparé',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+/// Page d’accueil avec Scaffold et le compteur
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Compteur séparé"),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: CounterWidget(), // Le widget vient d’un autre fichier
+      ),
+    );
+  }
+}
+```
+
+---
+
+## ✅ Étape 2 : `counter_widget.dart`
+
+```dart
+// lib/widgets/counter_widget.dart
+
+import 'package:flutter/material.dart';
+
+/// Widget stateful placé dans un fichier séparé
+class CounterWidget extends StatefulWidget {
+  const CounterWidget({super.key});
+
+  @override
+  State<CounterWidget> createState() => _CounterWidgetState();
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int _counter = 0; // Valeur d’état
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++; // Actualise la valeur
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          'Vous avez appuyé :',
+          style: TextStyle(fontSize: 18),
+        ),
+        Text(
+          '$_counter',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: _incrementCounter,
+          child: const Text('Incrémenter'),
+        ),
+      ],
+    );
+  }
+}
+```
+
+---
+
+## 🔗 Résumé des apports
+
+| Avantage                  | Description                                           |
+| ------------------------- | ----------------------------------------------------- |
+| ✨ Lisibilité              | `main.dart` reste court et clair                      |
+| 🧱 Modularité             | Chaque widget est dans son propre fichier             |
+| ♻️ Réutilisabilité        | `CounterWidget` peut être utilisé dans d'autres pages |
+| ✅ Prêt pour projets réels | Suivre une vraie architecture MVC ou Clean            |
+
+---

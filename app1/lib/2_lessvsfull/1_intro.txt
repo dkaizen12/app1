@@ -1,0 +1,106 @@
+🧱 StatelessWidget vs StatefulWidget — Quelle différence ?
+Type	Description	Utilisation
+StatelessWidget	UI immuable, aucun changement après affichage	Titres, icônes, images, mise en page
+StatefulWidget	UI modifiable — l’état peut changer avec setState()	Formulaires, compteurs, sliders, boutons, champs de texte
+
+📌 Exemple 1 — StatelessWidget (UI simple, immuable)
+dart
+Copier
+Modifier
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyStatelessApp());
+
+class MyStatelessApp extends StatelessWidget {
+  const MyStatelessApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Stateless Demo',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('StatelessWidget')),
+        body: const Center(
+          child: Text(
+            'Ce texte ne changera jamais',
+            style: TextStyle(fontSize: 24, color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+}
+🔹 Ici, le widget ne change jamais, peu importe les interactions.
+
+📌 Exemple 2 — StatefulWidget avec setState() (Compteur dynamique)
+dart
+Copier
+Modifier
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyStatefulApp());
+
+class MyStatefulApp extends StatelessWidget {
+  const MyStatefulApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Stateful Demo',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('StatefulWidget')),
+        body: const CounterWidget(),
+      ),
+    );
+  }
+}
+
+class CounterWidget extends StatefulWidget {
+  const CounterWidget({super.key});
+
+  @override
+  State<CounterWidget> createState() => _CounterWidgetState();
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int count = 0;
+
+  void _increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Compteur : $count',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: _increment,
+            icon: const Icon(Icons.add),
+            label: const Text('Incrémenter'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+🔸 Explication :
+
+StatefulWidget crée un état (State) séparé.
+
+La fonction setState() redessine l’interface quand count change.
+
+🧠 Résumé des concepts à retenir
+Terme	Signification
+StatelessWidget	Pas d’état à gérer. Contenu figé.
+StatefulWidget	Contenu dynamique avec état.
+setState()	Permet de notifier Flutter que l’UI doit être reconstruite.
+State<T>	Classe qui contient les données variables du widget.

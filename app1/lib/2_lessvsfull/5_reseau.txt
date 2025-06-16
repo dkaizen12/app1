@@ -1,0 +1,122 @@
+Voici une **synthèse claire et structurée** de ce que tu dois savoir pour **ajouter des fonctionnalités de réseau (HTTP, JSON, asynchronicité)** à ton application **Flutter**, avec les **ressources officielles** :
+
+---
+
+## 🚀 Introduction à la mise en réseau dans Flutter
+
+> 🧠 Une app Flutter sans réseau, c’est comme un humain sans connexion : inutilement isolé.
+
+---
+
+### ✅ 1. **Faire une requête HTTP simple**
+
+**Exemple :**
+
+```dart
+import 'package:http/http.dart' as http;
+
+void main() async {
+  var response = await http.get(
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+  );
+  print(response.body);
+}
+```
+
+📦 Package utilisé : `http`
+📍 Installation dans `pubspec.yaml` :
+
+```yaml
+dependencies:
+  http: ^1.1.0
+```
+
+---
+
+### ✅ 2. **Ressources officielles pour apprendre**
+
+#### 📘 Tutoriels Flutter :
+
+| 📌 Sujet               | 🔗 Ressource                                                                                          |
+| ---------------------- | ----------------------------------------------------------------------------------------------------- |
+| Récupérer des données  | [Tutoriel Flutter officiel](https://docs.flutter.dev/cookbook/networking/fetch-data)                  |
+| Requêtes authentifiées | [Cookbook authentification HTTP](https://docs.flutter.dev/cookbook/networking/authenticated-requests) |
+| MDN - Autorisation Web | [MDN Authorization](https://developer.mozilla.org/fr/docs/Web/HTTP/Authentication)                    |
+
+---
+
+### ✅ 3. **Convertir les données JSON**
+
+> Une fois les données récupérées, tu dois les **convertir (parser)** en objets Dart exploitables.
+
+**Méthodes possibles :**
+
+| Méthode                     | Description                                                          |
+| --------------------------- | -------------------------------------------------------------------- |
+| 🔧 Manuelle                 | `jsonDecode` → map vers class à la main                              |
+| 🧊 **Freezed** (recommandé) | Génération automatique avec immutabilité, `copyWith`, `fromJson()`…  |
+| 📦 `json_serializable`      | Génère `toJson()` / `fromJson()` automatiquement avec `build_runner` |
+
+📹 Vidéo YouTube recommandée :
+➡️ [Freezed - Package of the Week (YouTube)](https://youtu.be/2TSK5JW09jw)
+
+📘 Codelab :
+➡️ [Patterns & Records en Dart](https://dart.dev/codelabs/dart-patterns)
+
+---
+
+### ✅ 4. **Envoyer des données au serveur (POST, PUT, DELETE)**
+
+**Exemple POST simple :**
+
+```dart
+final response = await http.post(
+  Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+  headers: {'Content-Type': 'application/json'},
+  body: jsonEncode({'title': 'Flutter', 'body': 'is great!', 'userId': 1}),
+);
+```
+
+📘 Tutoriel : [Envoyer des données via POST](https://docs.flutter.dev/cookbook/networking/send-data)
+
+---
+
+### ✅ 5. **Gérer l’asynchronicité**
+
+| Concept                    | Ressource                                                               |
+| -------------------------- | ----------------------------------------------------------------------- |
+| `Future`, `async`, `await` | [Cours complet ici](https://dart.dev/codelabs/async-await)              |
+| `FutureBuilder`            | [Widget de la semaine (YouTube)](https://youtu.be/ek8ZPdWj4Qo)          |
+| Debug réseau               | [DevTool - Vue réseau](https://docs.flutter.dev/tools/devtools/network) |
+
+---
+
+### ✅ 6. **Aller plus loin : contenu avancé**
+
+| Sujet                                   | Ressource                                                                               |
+| --------------------------------------- | --------------------------------------------------------------------------------------- |
+| 🧭 App adaptative + serveur Dart (CORS) | [Atelier complet](https://codelabs.developers.google.com/codelabs/flutter-adaptive-app) |
+| 📍 Où stocker les données ?             | [Fitz - YouTube](https://youtu.be/zKXz3pUkw9A)                                          |
+| 🌐 Networking avancé                    | [Articles de Anna Leushchenko](https://medium.com/@anna.domashych)                      |
+
+---
+
+## 🧪 Conclusion
+
+Pour un app Flutter connectée :
+
+### Étapes clés :
+
+1. Ajouter `http` dans `pubspec.yaml`
+2. Faire une requête avec `http.get()` / `post()`
+3. Convertir les données JSON → classes Dart
+4. Gérer l'asynchronicité avec `async`, `await`, `FutureBuilder`
+5. (optionnel) Envoyer des données, authentification, debug
+
+---
+
+Souhaites-tu que je te crée un **exemple d’application Flutter complète** avec :
+
+* appel réseau HTTP
+* parsing JSON avec Freezed
+* affichage dynamique avec `FutureBuilder` ?

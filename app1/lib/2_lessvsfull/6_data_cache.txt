@@ -1,0 +1,381 @@
+Voici un **exemple Dart/Flutter complet et commenté ligne par ligne** illustrant les **trois niveaux de mise en cache** :
+
+1. ✅ **Mise en cache en mémoire**
+2. 📱 **Mise en cache persistante avec `shared_preferences`**
+3. 💾 **Mise en cache avancée avec une base de données (`sqflite`)**
+
+---
+
+## 🧪 Exemple : Charger un utilisateur depuis une API, le mettre en cache en mémoire + local
+
+```dart
+// 📦 Importations nécessaires
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+// 👤 Classe de données utilisateur
+class User {
+  final int id;
+  final String name;
+
+  User({required this.id, required this.name});
+
+  // Méthode pour créer un User à partir d'un JSON
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(id: json['id'], name: json['name']);
+  }
+
+  // Méthode pour convertir un User en JSON
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'name': name};
+  }
+}
+
+// 📦 Classe qui gère les appels API et le cache
+class UserRepository {
+  final Map<int, User?> _memoryCache = {}; // 🧠 Cache en mémoire
+  final String _prefsKeyPrefix = 'user_';
+
+  // 🔌 Méthode principale de chargement d'un utilisateur
+  Future<User?> loadUser(int id) async {
+    // Étape 1️⃣ : Vérifie le cache en mémoire
+    if (_memoryCache.containsKey(id)) {
+      print('✅ Données chargées depuis la mémoire');
+      return _memoryCache[id];
+    }
+
+    // Étape 2️⃣ : Vérifie le cache local (shared_preferences)
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cachedJson = prefs.getString('$_prefsKeyPrefix$id');
+
+    if (cachedJson != null) {
+      print('📦 Données chargées depuis SharedPreferences');
+      final user = User.fromJson(jsonDecode(cachedJson));
+      _memoryCache[id] = user;
+      return user;
+    }
+
+    // Étape 3️⃣ : Sinon, fais un appel réseau
+    print('🌐 Appel réseau en cours...');
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/users/$id'));
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final user = User.fromJson(json);
+
+      // Sauvegarde dans la mémoire et les préférences locales
+      _memoryCache[id] = user;
+      prefs.setString('$_prefsKeyPrefix$id', jsonEncode(user.toJson()));
+
+      return user;
+    } else {
+      print('❌ Échec de chargement API');
+      return null;
+    }
+  }
+}
+
+// 🖼️ Interface utilisateur simple
+class MyApp extends StatelessWidget {
+  final UserRepository repository = UserRepository();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mise en cache Flutter',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Mise en cache des utilisateurs')),
+        body: Center(
+          child: FutureBuilder<User?>(
+            future: repository.loadUser(1),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // 🌀 En chargement
+              } else if (snapshot.hasData && snapshot.data != null) {
+                return Text('👤 Utilisateur : ${snapshot.data!.name}');
+              } else {
+                return Text('⚠️ Erreur lors du chargement');
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+## ✅ Résumé des stratégies de cache utilisées :
+
+| Niveau                         | Description                               | Exemple                   |
+| ------------------------------ | ----------------------------------------- | ------------------------- |
+| 🧠 Mémoire                     | Cache temporaire pendant que l’app tourne | `_memoryCache`            |
+| 📱 Disque (clé-valeur)         | Cache persistant entre les sessions       | `shared_preferences`      |
+| 💾 Base de données (optionnel) | Cache structuré pour grandes données      | `sqflite`, `hive`, `isar` |
+
+---
+
+Parfait ! Voici deux exemples séparés pour **cacher les données utilisateur en Flutter** avec :
+
+---
+
+### ✅ 1. **Hive** (base de données non relationnelle rapide, simple, clé-valeur avancée)
+
+### ✅ 2. **Sqflite** (base de données relationnelle SQLite)
+
+---
+
+## 🐝 EXEMPLE AVEC HIVE
+
+### 🔧 Prérequis (dans `pubspec.yaml`)
+
+```yaml
+dependencies:
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.2
+
+dev_dependencies:
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.9
+```
+
+### 🧩 Étapes :
+
+1. Crée un modèle `User`
+2. Génére l’adaptateur Hive
+3. Initialise Hive dans `main`
+4. Lis/enregistre les données
+
+---
+
+### 1. ✅ Modèle Hive `User`
+
+```dart
+import 'package:hive/hive.dart';
+
+part 'user.g.dart';
+
+@HiveType(typeId: 0)
+class User extends HiveObject {
+  @HiveField(0)
+  int id;
+
+  @HiveField(1)
+  String name;
+
+  User({required this.id, required this.name});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(id: json['id'], name: json['name']);
+  }
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+}
+```
+
+### 2. 📦 Génére l’adaptateur :
+
+```bash
+flutter pub run build_runner build
+```
+
+---
+
+### 3. 🏁 `main.dart`
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'user.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  await Hive.openBox<User>('users');
+  runApp(MyApp());
+}
+```
+
+---
+
+### 4. 📦 Repository avec Hive
+
+```dart
+class UserRepository {
+  final Box<User> box = Hive.box<User>('users');
+
+  Future<User?> loadUser(int id) async {
+    if (box.containsKey(id)) {
+      print("📦 Donnée chargée depuis Hive");
+      return box.get(id);
+    }
+
+    print("🌐 Appel API...");
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/users/$id'));
+    if (response.statusCode == 200) {
+      final user = User.fromJson(jsonDecode(response.body));
+      await box.put(id, user); // cache dans Hive
+      return user;
+    } else {
+      print("❌ Erreur API");
+      return null;
+    }
+  }
+}
+```
+
+---
+
+## 🗃 EXEMPLE AVEC SQFLITE
+
+### 🔧 Prérequis (dans `pubspec.yaml`)
+
+```yaml
+dependencies:
+  sqflite: ^2.3.2
+  path_provider: ^2.1.2
+  path: ^1.9.0
+```
+
+---
+
+### 1. ✅ Classe `User`
+
+```dart
+class User {
+  final int id;
+  final String name;
+
+  User({required this.id, required this.name});
+
+  factory User.fromJson(Map<String, dynamic> json) =>
+      User(id: json['id'], name: json['name']);
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+
+  factory User.fromMap(Map<String, dynamic> map) =>
+      User(id: map['id'], name: map['name']);
+
+  Map<String, dynamic> toMap() => {'id': id, 'name': name};
+}
+```
+
+---
+
+### 2. 📦 Service de base de données SQLite
+
+```dart
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'dart:async';
+
+class DBService {
+  static Database? _db;
+
+  Future<Database> get db async {
+    if (_db != null) return _db!;
+    _db = await _init();
+    return _db!;
+  }
+
+  Future<Database> _init() async {
+    final path = join(await getDatabasesPath(), 'users.db');
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
+  }
+
+  Future _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE users (
+        id INTEGER PRIMARY KEY,
+        name TEXT
+      )
+    ''');
+  }
+
+  Future<User?> getUser(int id) async {
+    final dbClient = await db;
+    final maps = await dbClient.query('users', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      return User.fromMap(maps.first);
+    }
+    return null;
+  }
+
+  Future<void> saveUser(User user) async {
+    final dbClient = await db;
+    await dbClient.insert('users', user.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+}
+```
+
+---
+
+### 3. 🎯 `UserRepository` avec `Sqflite`
+
+```dart
+class UserRepository {
+  final DBService dbService = DBService();
+
+  Future<User?> loadUser(int id) async {
+    // 🔎 Tente d’abord SQLite
+    User? user = await dbService.getUser(id);
+    if (user != null) {
+      print("📦 Donnée chargée depuis SQLite");
+      return user;
+    }
+
+    // 🌐 Sinon API
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/users/$id'));
+    if (response.statusCode == 200) {
+      user = User.fromJson(jsonDecode(response.body));
+      await dbService.saveUser(user); // 💾 Enregistre localement
+      return user;
+    }
+
+    return null;
+  }
+}
+```
+
+---
+
+## 🧪 Interface UI commune (simple test)
+
+```dart
+class MyApp extends StatelessWidget {
+  final UserRepository repository = UserRepository(); // Choisir entre Hive/Sqflite
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mise en cache locale',
+      home: Scaffold(
+        appBar: AppBar(title: Text('User Cache Example')),
+        body: FutureBuilder<User?>(
+          future: repository.loadUser(1),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting)
+              return Center(child: CircularProgressIndicator());
+            if (snapshot.hasData)
+              return Center(child: Text("👤 ${snapshot.data!.name}"));
+            return Center(child: Text("❌ Utilisateur introuvable"));
+          },
+        ),
+      ),
+    );
+  }
+}

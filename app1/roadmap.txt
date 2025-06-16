@@ -6,169 +6,299 @@
   
 ### 🟢 Débutant (Fondations Flutter)
 
-#### 1. Installation de Flutter et Dart (ok)
-
-* Installer Flutter SDK depuis flutter.dev
-* Configuration des variables d'environnement
-* Installer Android Studio / VS Code + plugins Flutter & Dart
-* Exécuter `flutter doctor` pour valider l'installation
-
-#### 2. Structure d’un projet Flutter
-
-* `lib/`: code principal Dart
-* `android/`, `ios/`: plateformes natives
-* `pubspec.yaml`: dépendances, polices, assets
-
-#### 3. `main()` et `runApp()`
-
-* Point d'entrée de toute app Flutter
-
-```dart
-void main() {
-  runApp(MyApp());
-}
-```
-
-* `runApp()` insère le premier widget à l'arbre
-
-#### 4. Widgets de base
-
-* `MaterialApp`, `Scaffold`, `AppBar` : structure de l’UI
-* `Text`, `Container`, `Column`, `Row`, `Image`, `Icon`, `ElevatedButton` : éléments visuels de base
-
-#### 5. `StatefulWidget` vs `StatelessWidget`
-
-* `StatelessWidget` : UI fixe (non modifiable)
-* `StatefulWidget` : UI dynamique avec mémoire d'état via `setState()`
-
-#### 6. Navigation simple
-
-* `Navigator.push()`, `Navigator.pop()` : changement d'écran manuel
-* Création de routes personnalisées
-
-#### 7. Gestion d’état local
-
-* `setState()`, `TextEditingController` pour les champs de texte
-* `Form`, `GlobalKey` pour valider des formulaires
-
-#### 8. Responsiveness & Adaptabilité
-
-* `MediaQuery`, `LayoutBuilder` : dimensions adaptatives
-* `Expanded`, `Flexible`, `FittedBox` pour layout fluide
+### 📦 Widgets de base Flutter (structurés et enrichis)
 
 ---
 
-### 🟡 Intermédiaire (UI + Logique avancée)
+## 🎨 1. **Structure de l'UI**
 
-#### 9. Layouts complexes
-
-* `ListView`, `GridView` : listes verticales/grilles
-* `Stack` : superposition de widgets
-* `Wrap` : disposition adaptative dynamique
-
-#### 10. Thèmes & Styles
-
-* `ThemeData` : définition globale de l’apparence
-* `TextTheme`, `ColorScheme`, `darkTheme`
-* Intégration de polices personnalisées
-
-#### 11. Gestion d’état avancée
-
-* `Provider` : gestion de logique d’application
-* `Riverpod` : version moderne de Provider
-* `BLoC`, `Cubit` : pattern réactif découpé par évènements/états
-* `GetX`, `MobX`, `ChangeNotifier`
-
-#### 12. Navigation avancée
-
-* Routes nommées : via `routes:{}` ou `onGenerateRoute`
-* Deep linking : ouvrir l'app via des liens externes
-
-#### 13. Animations
-
-* `AnimatedContainer`, `AnimatedOpacity`, `AnimatedSwitcher`
-* `Hero`, `Tween`, `AnimationController`, `CustomPainter`
-
-#### 14. Internationalisation (i18n)
-
-* `flutter_localizations` + fichiers `.arb` ou `.json`
-* Intégration via `intl`
-
-#### 15. Accessibilité
-
-* `Semantics`, `TextScaleFactor`
-* Couleurs adaptées, contraste, réactivité vocale
-
-#### 16. Formulaires complexes
-
-* `Form`, `FormField`, `FocusNode`, `TextFormField`
-* `Checkbox`, `Radio`, `DropdownButton`, validation dynamiques
+| Widget        | Description                                                                    |
+| ------------- | ------------------------------------------------------------------------------ |
+| `MaterialApp` | Point d’entrée d’une application Flutter utilisant Material Design.            |
+| `Scaffold`    | Structure de base avec AppBar, Drawer, BottomNavigationBar, etc.               |
+| `AppBar`      | Barre d’en-tête contenant titre, actions, menus…                               |
+| `Builder`     | Permet d’obtenir un `BuildContext` distinct, souvent utile pour context local. |
 
 ---
+
+## 🧱 2. **Widgets de disposition (layout)**
+
+| Widget                 | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `Center`               | Centre son enfant dans l’écran.                             |
+| `Padding`              | Ajoute un espace autour d’un widget.                        |
+| `Row` / `Column`       | Aligne les enfants horizontalement / verticalement.         |
+| `SizedBox`             | Espace vide ou taille fixe.                                 |
+| `Container`            | Boîte personnalisable avec padding, bordures, couleur, etc. |
+| `Expanded`             | Prend tout l’espace disponible dans une Row ou Column.      |
+| `Flexible`             | Similaire à `Expanded` mais avec plus de contrôle.          |
+| `Stack` / `Positioned` | Superposition de widgets, positionnement absolu.            |
+| `Wrap`                 | Agencement dynamique d’éléments sur plusieurs lignes.       |
+| `ListView`             | Liste déroulable verticale.                                 |
+| `GridView`             | Grille déroulable.                                          |
+| `MediaQuery`           | Accès aux dimensions de l’écran.                            |
+| `LayoutBuilder`        | Permet des mises en page adaptatives.                       |
+
+---
+
+## ✏️ 3. **Widgets de texte**
+
+| Widget             | Description                                                        |
+| ------------------ | ------------------------------------------------------------------ |
+| `Text`             | Texte simple.                                                      |
+| `SelectableText`   | Texte sélectionnable par l’utilisateur.                            |
+| `RichText`         | Texte avec plusieurs styles via `TextSpan`.                        |
+| `TextSpan`         | Élément stylisé dans un `RichText`.                                |
+| `DefaultTextStyle` | Style par défaut hérité par tous les enfants `Text`.               |
+| `TextStyle`        | Objet de configuration pour la police, la couleur, la taille, etc. |
+
+---
+
+## 🎛️ 4. **Widgets de bouton**
+
+| Type             | Widget                      | Usage principal                         |
+| ---------------- | --------------------------- | --------------------------------------- |
+| Bouton principal | `ElevatedButton`            | Action principale avec ombre            |
+| Bouton important | `FilledButton`              | Bouton accentué (Material 3)            |
+| Variante tonale  | `TonalButton`               | Variante douce de `FilledButton`        |
+| Secondaire       | `OutlinedButton`            | Bouton avec bordure seulement           |
+| Discret          | `TextButton`                | Bouton sans bordure, souvent pour liens |
+| Iconique         | `IconButton`                | Icône cliquable                         |
+| Flottant         | `FloatingActionButton`      | Action flottante principale             |
+| Déroulante       | `DropdownButton`            | Liste déroulante                        |
+| Menu contextuel  | `PopupMenuButton`           | Affiche un menu contextuel              |
+| iOS              | `CupertinoButton`           | Style iOS                               |
+| Retour/Fermeture | `BackButton`, `CloseButton` | Navigation                              |
+| Personnalisé     | `RawMaterialButton`         | Entièrement personnalisable             |
+| Bas niveau       | `GestureDetector`           | Créer ses propres interactions          |
+
+---
+
+## 🧾 5. **Formulaires & Champs de saisie**
+
+| Widget                       | Description                                   |
+| ---------------------------- | --------------------------------------------- |
+| `Form`                       | Conteneur de groupe de champs de formulaire   |
+| `FormField<T>`               | Champ générique (texte, checkbox, etc.)       |
+| `TextFormField`              | Champ texte avec validation                   |
+| `DropdownButtonFormField<T>` | Liste déroulante dans formulaire              |
+| `TextField`                  | Champ de texte simple                         |
+| `CupertinoTextField`         | Champ iOS stylisé                             |
+| `EditableText`               | Base interne de `TextField`, rarement utilisé |
+| `GlobalKey<FormState>`       | Gère validation et sauvegarde du formulaire   |
+
+### Champs personnalisés
+
+* `CheckboxFormField` *(custom)* : à implémenter avec `FormField<bool>`
+* `RadioListTileFormField` *(custom)* : idem avec `FormField<T>`
+
+---
+
+## ✅ 6. **Sélection (groupes d’options)**
+
+Sélection unique
+
+| Widget                      | Description                                |
+| --------------------------- | ------------------------------------------ |
+| `Radio` / `RadioListTile`   | Boutons radio avec ou sans description     |
+| `DropdownButton`            | Liste déroulante                           |
+| `DropdownMenu`              | Nouvelle version stylée (Material 3)       |
+| `PopupMenuButton`           | Menu contextuel                            |
+| `SegmentedButton<T>`        | Groupe de boutons segmentés (style onglet) |
+| `CupertinoSegmentedControl` | Version iOS                                |
+| `CupertinoPicker`           | Sélecteur type roue iOS                    |
+
+Sélection multiple
+
+| Widget                         | Description                           |
+| ------------------------------ | ------------------------------------- |
+| `Checkbox`, `CheckboxListTile` | Cases à cocher simples ou en liste    |
+| `FilterChip`, `ChoiceChip`     | Bulles de sélection                   |
+| `SegmentedButton<T>`           | En mode `multiSelectionEnabled: true` |
+| `MultiSelectDialogField`       | Via package `multi_select_flutter`    |
+
+### Compléments / Personnalisés
+
+| Widget                                | Description                                            |
+| ------------------------------------- | ------------------------------------------------------ |
+| `ListView.builder` + `Checkbox/Radio` | Liste dynamique d’options personnalisées               |
+| `ExpansionTile` + `RadioListTile`     | Liste repliable avec options                           |
+| `BottomSheet`, `Dialog`, `Stepper`    | Interfaces contextuelles pour sélectionner des options |
+
+---
+
+## ✉️ 7. **Messages et alertes**
+
+| Widget                 | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `SnackBar`             | Message temporaire en bas d’écran              |
+| `ScaffoldMessenger`    | Gère l’affichage de SnackBar et MaterialBanner |
+| `AlertDialog`          | Boîte de dialogue classique                    |
+| `SimpleDialog`         | Liste d’options simples dans une boîte         |
+| `Dialog`               | Dialogue personnalisable                       |
+| `MaterialBanner`       | Message persistant en haut de l’écran          |
+| `Tooltip`              | Message court au survol                        |
+| `CupertinoAlertDialog` | Dialogue de style iOS                          |
+| `BottomSheet`          | Fenêtre modale depuis le bas de l’écran        |
+| `Banner`               | Label contextuel ou message visuel flottant    |
+
+---
+
+## 🛠️ 8. **Autres entrées interactives**
+
+| Widget                      | Description                                    |
+| --------------------------- | ---------------------------------------------- |
+| `Switch`, `SwitchListTile`  | Interrupteur ON/OFF                            |
+| `Radio`, `RadioListTile`    | Boutons radio                                  |
+| `Checkbox`                  | Case à cocher                                  |
+| `Slider`, `RangeSlider`     | Curseur pour valeur numérique                  |
+| `DatePicker`                | `showDatePicker()` pour sélectionner une date  |
+| `TimePicker`                | `showTimePicker()` pour sélectionner une heure |
+| `Autocomplete<T>`           | Suggestions automatiques dans un champ         |
+| `Stepper`                   | Étapes séquentielles avec validation           |
+| `file_picker` (package)     | Sélection de fichiers (non natif)              |
+| `dropdown_search` (package) | Liste déroulante multichoix avec recherche     |
+
+---
+
+## ⚙️ 9. **Widgets dynamiques et réactifs**
+
+| Widget                                          | Description                            |
+| ----------------------------------------------- | -------------------------------------- |
+| `StatefulWidget`                                | UI dynamique (utilise `setState()`)    |
+| `StatelessWidget`                               | UI statique                            |
+| `TextEditingController`                         | Gère le texte des champs de saisie     |
+| `Listenable`, `ValueNotifier`, `ChangeNotifier` | Systèmes réactifs légers               |
+| `ValueListenableBuilder`, `AnimatedBuilder`     | Construction réactive basée sur valeur |
+
+---
+
+## 🧠 10. **Gestion d’état**
+
+| Niveau           | Outils                                                 |
+| ---------------- | ------------------------------------------------------ |
+| Local            | `setState()`, `TextEditingController`, `ValueNotifier` |
+| Formulaire       | `Form`, `FormField`, `GlobalKey<FormState>`            |
+| Global (simple)  | `Provider`, `Riverpod`, `ChangeNotifier`               |
+| Global (réactif) | `BLoC`, `Cubit`, `GetX`, `MobX`                        |
+
+---
+
+## 🌍 11. **Navigation**
+
+| Type              | Widgets & Fonctions                   |
+| ----------------- | ------------------------------------- |
+| Simple            | `Navigator.push()`, `Navigator.pop()` |
+| Routes nommées    | `routes: {}` dans `MaterialApp`       |
+| Routes dynamiques | `onGenerateRoute`                     |
+| Deep linking      | Ouvrir l’app via URL externe          |
+
+---
+
+## 🌐 12. **Accessibilité & Internationalisation**
+
+| Domaine              | Widgets / Outils                               |
+| -------------------- | ---------------------------------------------- |
+| Accessibilité        | `Semantics`, `TextScaleFactor`                 |
+| Internationalisation | `flutter_localizations`, fichiers `.arb/.json` |
+| Librairie            | `intl`                                         |
+
+---
+
+## 🎨 13. **Thème & Apparence**
+
+| Widget / Objet             | Description                             |
+| -------------------------- | --------------------------------------- |
+| `ThemeData`                | Apparence globale                       |
+| `TextTheme`, `ColorScheme` | Personnalisation des textes et couleurs |
+| `darkTheme`                | Thème sombre                            |
+| Polices personnalisées     | Ajout via `pubspec.yaml`                |
+
+---
+
+## 🎬 14. **Animations**
+
+| Widget                         | Description                                   |
+| ------------------------------ | --------------------------------------------- |
+| `AnimatedContainer`            | Animation implicite sur taille, couleur, etc. |
+| `AnimatedOpacity`              | Transition d’opacité                          |
+| `AnimatedSwitcher`             | Transition entre widgets                      |
+| `Hero`                         | Animation de transition entre écrans          |
+| `Tween`, `AnimationController` | Animation personnalisée                       |
+| `CustomPainter`                | Dessin et animation personnalisée             |
 
 ### 🔵 Avancé (Intégration & plateformes)
 
-#### 17. Appels HTTP & APIs
+15. Appels HTTP & APIs
+Utilisation de bibliothèques comme http, dio, chopper
 
-* `http`, `dio`, `chopper`
-* Utilisation de `FutureBuilder`, modèles JSON avec `jsonDecode`
+Gestion des données asynchrones avec FutureBuilder, parsing JSON avec jsonDecode et modèles de classes
 
-#### 18. Base de données locales
+16. Base de données locales
+sqflite pour le stockage SQL local
 
-* `sqflite` : SQL local
-* `hive` : base NoSQL rapide
-* `shared_preferences` : stocker bool, String, etc.
+hive pour un stockage NoSQL rapide
 
-#### 19. Firebase
+shared_preferences pour enregistrer des valeurs simples (bool, String…)
 
-* `firebase_core`, `firebase_auth`, `cloud_firestore`
-* Authentification, messagerie push (`firebase_messaging`), stockage de fichiers
+17. Firebase
+Authentification (firebase_auth)
 
-#### 20. Accès natif & plugins
+Base de données cloud (cloud_firestore)
 
-* Caméra, fichiers : `image_picker`, `file_picker`
-* GPS : `geolocator`, `location`
-* Micro : `permission_handler`, `audio_recorder`
+Notifications push (firebase_messaging)
 
-#### 21. Création de packages personnalisés
+Stockage de fichiers (firebase_storage)
 
-* Créer une lib Dart réutilisable : `flutter create --template=package mon_package`
-* Publier sur pub.dev
+Initialisation (firebase_core)
 
-#### 22. Tests
+18. Accès natif & plugins
+Accès à l’appareil photo, GPS, fichiers, micro avec : image_picker, file_picker, geolocator, location, permission_handler
 
-* Tests unitaires avec `test`
-* Tests de widget avec `flutter_test`
-* Tests d’intégration : `integration_test`
+19. Création de packages personnalisés
+Création via flutter create --template=package
 
-#### 23. Performance & optimisation
+Réutilisation dans d'autres projets
 
-* `RepaintBoundary`, `ImageCache`, `lazy loading`
-* Analyser avec `flutter devtools`, `timeline`
+Publication sur pub.dev
 
----
+20. Tests
+Tests unitaires (test)
 
-### 🔴 Expert (Production & Publication)
+Tests de widget (flutter_test)
 
-#### 24. Architecture évolutive
+Tests d’intégration (integration_test)
 
-* Clean Architecture, DDD, TDD
-* MVC, MVVM, hexagonal architecture
-* Séparation en `data/domain/presentation`
+21. Performance & optimisation
+Optimisation via RepaintBoundary, gestion du cache avec ImageCache, chargement paresseux
 
-#### 25. CI/CD (Intégration et Livraison Continue)
+Diagnostic avec flutter devtools, timeline, memory
 
-* Codemagic, GitHub Actions, Bitrise
-* Scripts automatiques de build, test, déploiement Firebase/App Store
+🔴 Expert (Production & Publication)
+22. Architecture évolutive
+Clean Architecture, DDD, TDD
 
-#### 26. Sécurité
+MVC, MVVM, architecture hexagonale
 
-* `flutter_secure_storage`, OTP, OAuth
-* Obfuscation du code (`flutter build apk --obfuscate`)
-* Sécurité Firebase (rules)
+Organisation en data / domain / presentation
 
-#### 27. Publication
+23. CI/CD
+Intégration continue avec Codemagic, GitHub Actions, Bitrise
 
-* Android : `flutter build apk` / `aab`
-* iOS : `flutter build ios`, signature via Xcode
-* App Store : configuration du compte Apple Developer (99\$/an), publication via Xcode ou Transporter
+Déploiement automatisé sur Firebase / Play Store / App Store
+
+24. Sécurité
+Stockage sécurisé avec flutter_secure_storage, authentification OAuth / OTP
+
+Obfuscation : flutter build apk --obfuscate --split-debug-info
+
+Sécurité côté Firestore via les règles
+
+25. Publication
+Android : flutter build apk / flutter build appbundle
+
+iOS : flutter build ios + signature via Xcode
+
+Publication App Store : via Xcode / Transporter avec compte développeur Apple
+
+Configuration finale : splash screen, icônes, permissions, ID d'application
