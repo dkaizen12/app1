@@ -5,10 +5,7 @@
   https://github.com/jboss-developer/jboss-eap-quickstarts/tree/7.4.x/helloworld-rs 
   
 ### 🟢 Débutant (Fondations Flutter)
-
 ### 📦 Widgets de base Flutter (structurés et enrichis)
-
----
 
 ## 🎨 1. **Structure de l'UI**
 
@@ -18,8 +15,6 @@
 | `Scaffold`    | Structure de base avec AppBar, Drawer, BottomNavigationBar, etc.               |
 | `AppBar`      | Barre d’en-tête contenant titre, actions, menus…                               |
 | `Builder`     | Permet d’obtenir un `BuildContext` distinct, souvent utile pour context local. |
-
----
 
 ## 🧱 2. **Widgets de disposition (layout)**
 
@@ -39,8 +34,6 @@
 | `MediaQuery`           | Accès aux dimensions de l’écran.                            |
 | `LayoutBuilder`        | Permet des mises en page adaptatives.                       |
 
----
-
 ## ✏️ 3. **Widgets de texte**
 
 | Widget             | Description                                                        |
@@ -51,8 +44,6 @@
 | `TextSpan`         | Élément stylisé dans un `RichText`.                                |
 | `DefaultTextStyle` | Style par défaut hérité par tous les enfants `Text`.               |
 | `TextStyle`        | Objet de configuration pour la police, la couleur, la taille, etc. |
-
----
 
 ## 🎛️ 4. **Widgets de bouton**
 
@@ -72,8 +63,6 @@
 | Personnalisé     | `RawMaterialButton`         | Entièrement personnalisable             |
 | Bas niveau       | `GestureDetector`           | Créer ses propres interactions          |
 
----
-
 ## 🧾 5. **Formulaires & Champs de saisie**
 
 | Widget                       | Description                                   |
@@ -86,18 +75,14 @@
 | `CupertinoTextField`         | Champ iOS stylisé                             |
 | `EditableText`               | Base interne de `TextField`, rarement utilisé |
 | `GlobalKey<FormState>`       | Gère validation et sauvegarde du formulaire   |
-
 ### Champs personnalisés
 
-* `CheckboxFormField` *(custom)* : à implémenter avec `FormField<bool>`
-* `RadioListTileFormField` *(custom)* : idem avec `FormField<T>`
-
----
+`CheckboxFormField` *(custom)* : à implémenter avec `FormField<bool>`
+`RadioListTileFormField` *(custom)* : idem avec `FormField<T>`
 
 ## ✅ 6. **Sélection (groupes d’options)**
 
 Sélection unique
-
 | Widget                      | Description                                |
 | --------------------------- | ------------------------------------------ |
 | `Radio` / `RadioListTile`   | Boutons radio avec ou sans description     |
@@ -125,8 +110,6 @@ Sélection multiple
 | `ExpansionTile` + `RadioListTile`     | Liste repliable avec options                           |
 | `BottomSheet`, `Dialog`, `Stepper`    | Interfaces contextuelles pour sélectionner des options |
 
----
-
 ## ✉️ 7. **Messages et alertes**
 
 | Widget                 | Description                                    |
@@ -141,8 +124,6 @@ Sélection multiple
 | `CupertinoAlertDialog` | Dialogue de style iOS                          |
 | `BottomSheet`          | Fenêtre modale depuis le bas de l’écran        |
 | `Banner`               | Label contextuel ou message visuel flottant    |
-
----
 
 ## 🛠️ 8. **Autres entrées interactives**
 
@@ -159,8 +140,6 @@ Sélection multiple
 | `file_picker` (package)     | Sélection de fichiers (non natif)              |
 | `dropdown_search` (package) | Liste déroulante multichoix avec recherche     |
 
----
-
 ## ⚙️ 9. **Widgets dynamiques et réactifs**
 
 | Widget                                          | Description                            |
@@ -171,8 +150,6 @@ Sélection multiple
 | `Listenable`, `ValueNotifier`, `ChangeNotifier` | Systèmes réactifs légers               |
 | `ValueListenableBuilder`, `AnimatedBuilder`     | Construction réactive basée sur valeur |
 
----
-
 ## 🧠 10. **Gestion d’état**
 
 | Niveau           | Outils                                                 |
@@ -181,8 +158,6 @@ Sélection multiple
 | Formulaire       | `Form`, `FormField`, `GlobalKey<FormState>`            |
 | Global (simple)  | `Provider`, `Riverpod`, `ChangeNotifier`               |
 | Global (réactif) | `BLoC`, `Cubit`, `GetX`, `MobX`                        |
-
----
 
 ## 🌍 11. **Navigation**
 
@@ -193,8 +168,6 @@ Sélection multiple
 | Routes dynamiques | `onGenerateRoute`                     |
 | Deep linking      | Ouvrir l’app via URL externe          |
 
----
-
 ## 🌐 12. **Accessibilité & Internationalisation**
 
 | Domaine              | Widgets / Outils                               |
@@ -202,8 +175,6 @@ Sélection multiple
 | Accessibilité        | `Semantics`, `TextScaleFactor`                 |
 | Internationalisation | `flutter_localizations`, fichiers `.arb/.json` |
 | Librairie            | `intl`                                         |
-
----
 
 ## 🎨 13. **Thème & Apparence**
 
@@ -213,8 +184,6 @@ Sélection multiple
 | `TextTheme`, `ColorScheme` | Personnalisation des textes et couleurs |
 | `darkTheme`                | Thème sombre                            |
 | Polices personnalisées     | Ajout via `pubspec.yaml`                |
-
----
 
 ## 🎬 14. **Animations**
 
@@ -231,25 +200,18 @@ Sélection multiple
 
 15. Appels HTTP & APIs
 Utilisation de bibliothèques comme http, dio, chopper
-
 Gestion des données asynchrones avec FutureBuilder, parsing JSON avec jsonDecode et modèles de classes
 
 16. Base de données locales
 sqflite pour le stockage SQL local
-
 hive pour un stockage NoSQL rapide
-
 shared_preferences pour enregistrer des valeurs simples (bool, String…)
 
 17. Firebase
 Authentification (firebase_auth)
-
 Base de données cloud (cloud_firestore)
-
 Notifications push (firebase_messaging)
-
 Stockage de fichiers (firebase_storage)
-
 Initialisation (firebase_core)
 
 18. Accès natif & plugins
@@ -257,48 +219,35 @@ Accès à l’appareil photo, GPS, fichiers, micro avec : image_picker, file_pic
 
 19. Création de packages personnalisés
 Création via flutter create --template=package
-
 Réutilisation dans d'autres projets
-
 Publication sur pub.dev
 
 20. Tests
 Tests unitaires (test)
-
 Tests de widget (flutter_test)
-
 Tests d’intégration (integration_test)
 
 21. Performance & optimisation
 Optimisation via RepaintBoundary, gestion du cache avec ImageCache, chargement paresseux
-
 Diagnostic avec flutter devtools, timeline, memory
 
 🔴 Expert (Production & Publication)
 22. Architecture évolutive
 Clean Architecture, DDD, TDD
-
 MVC, MVVM, architecture hexagonale
-
 Organisation en data / domain / presentation
 
 23. CI/CD
 Intégration continue avec Codemagic, GitHub Actions, Bitrise
-
 Déploiement automatisé sur Firebase / Play Store / App Store
 
 24. Sécurité
 Stockage sécurisé avec flutter_secure_storage, authentification OAuth / OTP
-
 Obfuscation : flutter build apk --obfuscate --split-debug-info
-
 Sécurité côté Firestore via les règles
 
 25. Publication
 Android : flutter build apk / flutter build appbundle
-
 iOS : flutter build ios + signature via Xcode
-
 Publication App Store : via Xcode / Transporter avec compte développeur Apple
-
 Configuration finale : splash screen, icônes, permissions, ID d'application
