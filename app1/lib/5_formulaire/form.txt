@@ -1,0 +1,128 @@
+Voici un exemple complet et **commenté** en Dart/Flutter pour illustrer l'utilisation de la classe `Form` et ses principales **propriétés** comme :
+
+* `autovalidateMode`
+* `onChanged`
+* `onWillPop`
+* `canPop`
+* `child`
+* `FormState.of(context)`
+
+---
+
+### ✅ Code Flutter commenté :
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    home: FormExample(),
+  ));
+}
+
+/// Exemple de Formulaire avec différentes propriétés
+class FormExample extends StatefulWidget {
+  const FormExample({super.key});
+
+  @override
+  State<FormExample> createState() => _FormExampleState();
+}
+
+class _FormExampleState extends State<FormExample> {
+  final _formKey = GlobalKey<FormState>(); // Clé unique pour manipuler l'état du formulaire
+  String _email = '';
+  String _password = ""; 
+  bool _canExit = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      // Utilisé pour empêcher ou autoriser la fermeture de la page
+      onWillPop: () async {
+        if (!_canExit) {
+          // Si l'utilisateur tente de quitter sans autorisation, on bloque
+          final shouldExit = await showDialog<bool>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Confirmer'),
+              content: const Text('Voulez-vous quitter le formulaire ?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: const Text('Non'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: const Text('Oui'),
+                ),
+              ],
+            ),
+          );
+          return shouldExit ?? false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Form - Exemple Complet')),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey, // Lié à la GlobalKey pour accéder au FormState
+            autovalidateMode: AutovalidateMode.onUserInteraction, // Valide automatiquement après interaction
+            onChanged: () {
+              // Appelé à chaque changement dans un champ du formulaire
+              print('Changement détecté');
+            },
+            canPop: _canExit, // Détermine si on peut quitter sans confirmation
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  validator: (value) {
+                    if (value == null || !value.contains('@')) {
+                      return 'Veuillez entrer un email valide.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // on valide et enregistre le formulaire
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      setState(() {
+                        _canExit = true;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Email sauvegardé : $_email')),
+                      );
+                    }
+                  },
+                  child: const Text('Soumettre'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### ✅ Explication des propriétés utilisées :
+
+| Propriété           | Description                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| `key:`              | Permet de référencer et manipuler l'état du formulaire (`_formKey`)                             |
+| `autovalidateMode:` | Définit comment les champs sont validés automatiquement (`onUserInteraction`, `disabled`, etc.) |
+| `onChanged:`        | Déclenché dès qu’un champ du formulaire change                                                  |
+| `canPop:`           | Empêche ou autorise la fermeture automatique de la page sans confirmation                       |
+| `onWillPop:`        | Montre un dialogue avant de quitter la page (gère manuellement la sortie)                       |
+| `child:`            | Arbre de widgets (ici `TextFormField`, `ElevatedButton`, etc.)                                  |

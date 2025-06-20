@@ -1,0 +1,137 @@
+Voici une **documentation complète et pédagogique** sur les **commandes Flutter CLI** (outil de ligne de commande), avec une explication claire et structurée de **chaque commande**, son utilité et des exemples pratiques.
+
+---
+
+# 🚀 Documentation Flutter CLI – Commandes de base et avancées
+
+L’**outil en ligne de commande Flutter (`flutter`)** permet de :
+
+* Créer des projets
+* Analyser le code
+* Exécuter des tests
+* Lancer des apps
+* Compiler pour Android/iOS/Web
+* Gérer des packages
+* Utiliser Firebase, les émulateurs, etc.
+
+---
+
+## 📁 1. Commandes de création et d’organisation
+
+| Commande         | Description                                                                                             | Exemple                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| `flutter create` | Crée un nouveau projet Flutter. Génère l’arborescence initiale.                                         | `flutter create mon_app`      |
+| `flutter clean`  | Supprime le cache et les fichiers de build (`build/`, `.dart_tool/`, etc.). À utiliser en cas d’erreur. | `flutter clean`               |
+| `flutter config` | Configure des paramètres (comme `--build-dir`, `--enable-web`, etc.)                                    | `flutter config --enable-web` |
+
+---
+
+## 📦 2. Gestion des packages (pub)
+
+| Commande               | Description                                      | Exemple                |
+| ---------------------- | ------------------------------------------------ | ---------------------- |
+| `flutter pub get`      | Télécharge les dépendances depuis `pubspec.yaml` | `flutter pub get`      |
+| `flutter pub upgrade`  | Met à jour toutes les dépendances                | `flutter pub upgrade`  |
+| `flutter pub outdated` | Affiche les paquets obsolètes                    | `flutter pub outdated` |
+
+---
+
+## 🧠 3. Analyse et tests
+
+| Commande          | Description                                                                | Exemple           |
+| ----------------- | -------------------------------------------------------------------------- | ----------------- |
+| `flutter analyze` | Analyse le code pour détecter les erreurs, warnings ou mauvaises pratiques | `flutter analyze` |
+| `flutter test`    | Lance les tests unitaires ou de widgets dans le projet                     | `flutter test`    |
+| `flutter drive`   | Exécute des tests automatisés sur simulateur/appareil réel                 | `flutter drive`   |
+
+---
+
+## 🖥️ 4. Exécution de l'application
+
+| Commande             | Description                                                                  | Exemple                            |
+| -------------------- | ---------------------------------------------------------------------------- | ---------------------------------- |
+| `flutter run`        | Exécute l’app sur un émulateur ou appareil connecté                          | `flutter run lib/main.dart`        |
+| `flutter attach`     | Se connecte à une app Flutter déjà lancée (utile pour le debug sans rebuild) | `flutter attach`                   |
+| `flutter install`    | Installe l’appli sur un appareil sans la lancer                              | `flutter install -d emulator-5554` |
+| `flutter screenshot` | Prend une capture d’écran de l’application depuis l’appareil connecté        | `flutter screenshot`               |
+
+---
+
+## 🧱 5. Compilation / Build
+
+| Commande            | Description                                       | Exemple                       |
+| ------------------- | ------------------------------------------------- | ----------------------------- |
+| `flutter build apk` | Compile une APK pour Android (mode release/debug) | `flutter build apk --release` |
+| `flutter build ios` | Compile pour iOS (nécessite macOS + Xcode)        | `flutter build ios`           |
+| `flutter build web` | Compile pour Web (dans `/build/web`)              | `flutter build web`           |
+| `flutter assemble`  | Construit les ressources personnalisées (avancé)  | `flutter assemble`            |
+
+---
+
+## 🌐 6. Gestion de plateformes
+
+| Commande            | Description                                                               | Exemple                  |
+| ------------------- | ------------------------------------------------------------------------- | ------------------------ |
+| `flutter devices`   | Liste tous les appareils connectés (physiques, simulateurs, Chrome, etc.) | `flutter devices`        |
+| `flutter emulators` | Liste, crée ou démarre des émulateurs Android                             | `flutter emulators`      |
+| `flutter channel`   | Change de canal Flutter (`stable`, `beta`, `dev`, `master`)               | `flutter channel stable` |
+| `flutter upgrade`   | Met à jour Flutter vers la dernière version du canal courant              | `flutter upgrade`        |
+| `flutter downgrade` | Revient à la version précédente                                           | `flutter downgrade`      |
+
+---
+
+## 🧰 7. Outils de diagnostic & debug
+
+| Commande            | Description                                                     | Exemple                               |
+| ------------------- | --------------------------------------------------------------- | ------------------------------------- |
+| `flutter doctor`    | Vérifie l’installation de Flutter, Dart, Android Studio, etc.   | `flutter doctor`                      |
+| `flutter logs`      | Affiche les logs d’exécution en temps réel (console, erreurs)   | `flutter logs`                        |
+| `flutter symbolize` | Déchiffre les erreurs d’une app release (stacktrace symbolisée) | `flutter symbolize --input=stack.txt` |
+| `flutter gen-l10n`  | Génère les fichiers de traduction (localisation)                | `flutter gen-l10n`                    |
+
+---
+
+## 🧪 8. Autres outils utiles
+
+| Commande                  | Description                                                                                         | Exemple                       |
+| ------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------- |
+| `flutter precache`        | Télécharge les dépendances binaires en cache pour éviter les téléchargements pendant la compilation | `flutter precache`            |
+| `flutter bash-completion` | Active l’autocomplétion dans le terminal (bash/zsh/fish)                                            | `flutter bash-completion`     |
+| `flutter custom-devices`  | Ajoute ou gère des appareils de test personnalisés                                                  | `flutter custom-devices list` |
+
+---
+
+## 🧾 9. Aide et documentation intégrée
+
+| Commande                  | Description                                                       | Exemple             |
+| ------------------------- | ----------------------------------------------------------------- | ------------------- |
+| `flutter --help`          | Liste les commandes globales disponibles                          | `flutter --help`    |
+| `flutter help <commande>` | Donne l’aide détaillée d’une commande précise                     | `flutter help run`  |
+| `flutter --version`       | Affiche la version actuelle de Flutter (Framework, Dart, Engine…) | `flutter --version` |
+
+---
+
+## 🔧 Exemple de workflow Flutter
+
+```bash
+flutter create stories_kin
+cd stories_kin
+flutter pub get
+flutter run
+```
+
+---
+
+## 📌 En résumé : commandes fréquentes
+
+| Objectif                              | Commande                          |
+| ------------------------------------- | --------------------------------- |
+| Créer un projet                       | `flutter create`                  |
+| Lancer le projet                      | `flutter run`                     |
+| Ajouter des packages                  | `flutter pub get`                 |
+| Nettoyer le projet                    | `flutter clean`                   |
+| Compiler APK                          | `flutter build apk`               |
+| Mettre à jour Flutter                 | `flutter upgrade`                 |
+| Tester et analyser                    | `flutter test`, `flutter analyze` |
+| Voir les appareils disponibles        | `flutter devices`                 |
+| Résoudre les problèmes d’installation | `flutter doctor`                  |

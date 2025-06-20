@@ -1,0 +1,149 @@
+## 🧠 Qu’est-ce qu’un `StatefulWidget` ?
+Un `StatefulWidget` est un widget **avec état mutable**, c’est-à-dire qu’il peut **changer pendant son cycle de vie**.
+🔁 Contrairement à un `StatelessWidget`, qui est **figé**, un `StatefulWidget` peut :
+
+* réagir à des événements (clic, scroll, timeout…),
+* stocker des valeurs qui changent (compteur, formulaire, animation…),
+* déclencher des **reconstructions dynamiques** avec `setState()`.
+
+---
+
+## 🧩 Structure d’un `StatefulWidget`
+
+```dart
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Text('Je suis dynamique');
+  }
+}
+```
+
+### Deux classes nécessaires :
+
+| Classe            | Rôle                                                            |
+| ----------------- | --------------------------------------------------------------- |
+| `StatefulWidget`  | **Déclare** le widget, avec ses propriétés immuables.           |
+| `State<MyWidget>` | **Contient l’état mutable**, les variables, `initState()`, etc. |
+
+---
+
+## 🔁 Cycle de vie d’un `StatefulWidget`
+
+Voici les principales **étapes de vie** d’un widget avec état :
+
+```txt
+ ┌─────────────┐
+ │ createState │  ← Création initiale du State
+ └────┬────────┘
+      ↓
+ ┌──────────────┐
+ │ initState()  │  ← Initialisation des ressources
+ └────┬─────────┘
+      ↓
+ ┌───────────────┐
+ │ didChangeDependencies() │ ← (optionnel) dépendances du contexte
+ └────┬────────────┘
+      ↓
+ ┌──────────────┐
+ │ build()      │  ← Affiche l'interface (appelé plusieurs fois)
+ └────┬─────────┘
+      ↓
+     [setState()] ← Réagit aux événements, met à jour l’UI
+      ↓
+ ┌──────────────┐
+ │ build()      │ ← Reconstruit l’interface
+ └────┬─────────┘
+      ↓
+ ┌──────────────┐
+ │ deactivate() │ ← Retiré de l’arbre (temporairement)
+ └────┬─────────┘
+      ↓
+ ┌──────────────┐
+ │ dispose()    │ ← Détruit le State et libère les ressources
+ └──────────────┘
+```
+
+---
+
+## 📦 Méthodes principales du cycle de vie
+
+| Méthode                   | Quand elle est appelée                                        |
+| ------------------------- | ------------------------------------------------------------- |
+| `createState()`           | Lors de l’initialisation du widget                            |
+| `initState()`             | Une seule fois, avant le premier `build()`                    |
+| `didChangeDependencies()` | Lorsque le `BuildContext` ou un `InheritedWidget` change      |
+| `build()`                 | Chaque fois que l’UI doit être rafraîchie                     |
+| `setState()`              | Déclenche un `build()`                                        |
+| `deactivate()`            | Avant d’être retiré de l’arbre                                |
+| `dispose()`               | Lors de la suppression du widget de l’UI (libérer la mémoire) |
+
+---
+
+## 🧪 Exemple concret avec interaction
+
+```dart
+class CounterPage extends StatefulWidget {
+  const CounterPage({super.key});
+
+  @override
+  State<CounterPage> createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterPage> {
+  int _count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Compteur')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Valeur : $_count', style: const TextStyle(fontSize: 32)),
+            ElevatedButton(
+              onPressed: () => setState(() => _count++),
+              child: const Text('Incrémenter'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+🔁 Chaque clic **modifie l’état (`_count`)** et **reconstruit le widget** avec `setState()`.
+
+---
+
+## ⚠️ Bonnes pratiques
+
+| ✅ À faire                                | ❌ À éviter                                              |
+| ---------------------------------------- | ------------------------------------------------------- |
+| Utiliser `setState()` pour modifier l’UI | Modifier l’état **sans** `setState()`                   |
+| Libérer les ressources dans `dispose()`  | Oublier de fermer les `controller`, `timer`, etc.       |
+| Utiliser `const` pour les widgets fixes  | Reconstruire toute la UI inutilement                    |
+| Séparer la logique en petits widgets     | Tout écrire dans une seule classe géante                |
+| Mettre l’état au plus bas dans l’arbre   | Rebuilder un grand arbre pour un petit changement local |
+
+---
+
+## 🔁 Résumé
+
+| Élément           | Rôle                                                 |
+| ----------------- | ---------------------------------------------------- |
+| `StatefulWidget`  | Widget dont le contenu peut changer                  |
+| `State<MyWidget>` | Contient les variables, logique et méthodes de cycle |
+| `build()`         | Reconstruit l’UI à chaque modification               |
+| `setState()`      | Déclenche un `build()`                               |
+| `dispose()`       | Nettoyage mémoire (stream, controller, animation…)   |
+

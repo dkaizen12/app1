@@ -1,0 +1,113 @@
+Le widget Flutter `Positioned` est utilisé **dans un `Stack`** pour **positionner précisément** un enfant en utilisant des valeurs comme `top`, `left`, `right`, `bottom`.
+
+---
+
+## 🔧 Syntaxe de base
+
+```dart
+Positioned(
+  top: 10,
+  left: 20,
+  child: Container(
+    width: 100,
+    height: 100,
+    color: Colors.red,
+  ),
+)
+```
+
+> ⚠️ **Important** : `Positioned` ne peut fonctionner **que dans un parent `Stack`**.
+
+---
+
+## ✅ Toutes les propriétés de `Positioned`
+
+| Propriété | Type      | Description                               |
+| --------- | --------- | ----------------------------------------- |
+| `top`     | `double?` | Distance depuis le haut du parent `Stack` |
+| `left`    | `double?` | Distance depuis la gauche                 |
+| `right`   | `double?` | Distance depuis la droite                 |
+| `bottom`  | `double?` | Distance depuis le bas                    |
+| `width`   | `double?` | Largeur fixe du widget (si non déduite)   |
+| `height`  | `double?` | Hauteur fixe du widget                    |
+| `child`   | `Widget`  | Widget à positionner                      |
+| `key`     | `Key?`    | Identifiant facultatif                    |
+
+---
+
+## 🧠 Comportement des contraintes
+
+* Si tu définis `left` **et** `right`, la largeur est déduite automatiquement.
+* Si tu définis **seulement** `left` (ou `right`), et que tu veux une largeur : utilise `width`.
+* Idem pour `top` / `bottom` et `height`.
+
+---
+
+## 🧪 Exemple complet
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Positioned Demo',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Positioned Example')),
+        body: Stack(
+          children: [
+            // Positioned avec top/left
+            Positioned(
+              top: 40,
+              left: 30,
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+                child: const Center(child: Text('A')),
+              ),
+            ),
+            // Positioned avec bottom/right
+            Positioned(
+              bottom: 50,
+              right: 20,
+              child: Container(
+                width: 80,
+                height: 80,
+                color: Colors.green,
+                child: const Center(child: Text('B')),
+              ),
+            ),
+            // Positioned avec left/right => largeur automatique
+            Positioned(
+              top: 160,
+              left: 30,
+              right: 30,
+              child: Container(
+                height: 60,
+                color: Colors.blue,
+                child: const Center(child: Text('C - width auto')),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+## 🎓 Résumé
+
+| Tu veux...                      | Utilise...                                               |
+| ------------------------------- | -------------------------------------------------------- |
+| Positionner un widget précis    | `Positioned(...)`                                        |
+| Le combiner à d’autres couches  | Place-le dans un `Stack(...)`                            |
+| Gérer les tailles dynamiquement | Combine `top`, `bottom`, `left`, `right` selon le besoin |
+| Fixer la taille manuellement    | Utilise `width` et `height`                              |
+
+Souhaites-tu un exemple avec animation ou responsive ?

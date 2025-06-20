@@ -1,0 +1,125 @@
+## 📦 Objectif
+Charger localement un fichier JSON (ex : `data.json`) depuis le dossier de documents de l’application, puis **le décoder en objets Dart** utilisables dans ton app.
+
+## 🧰 Outils nécessaires
+
+* `dart:io` → pour accéder au fichier
+* `dart:convert` → pour décoder le JSON (`jsonDecode`)
+* `path_provider` → pour accéder au bon chemin (documents directory)
+
+---
+
+## 🧪 Extrait de code explicatif
+
+```dart
+import 'dart:io'; // Fichier
+import 'dart:convert'; // jsonDecode()
+import 'package:path_provider/path_provider.dart'; // getApplicationDocumentsDirectory
+
+// Modèle simple pour une publication
+class Post {
+  final String title;
+  final String author;
+  final String content;
+
+  Post({required this.title, required this.author, required this.content});
+
+  // Convertir une Map JSON en Post
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      title: json['title'],
+      author: json['author'],
+      content: json['content'],
+    );
+  }
+}
+
+Future<void> readPostsFromFile() async {
+  // 1. Obtenir le répertoire local de l’app
+  final directory = await getApplicationDocumentsDirectory();
+
+  // 2. Créer l’instance du fichier data.json
+  final file = File('${directory.path}/data.json');
+
+  // 3. Lire le contenu en tant que String
+  final contenu = await file.readAsString();
+
+  // 4. Décoder le contenu JSON en List<Map>
+  final List<dynamic> jsonList = jsonDecode(contenu);
+
+  // 5. Transformer en liste d’objets Post
+  final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+
+  // 6. Utilisation
+  for (var post in posts) {
+    print('📄 ${post.title} par ${post.author}');
+  }
+}
+```
+
+---
+
+## 📁 Exemple de contenu du fichier `data.json`
+
+Voici un exemple simulé de fichier JSON que tu peux écrire dans `/data.json` pour tester :
+
+```json
+[
+  {
+    "title": "Kinshasa by Night",
+    "author": "user243",
+    "content": "Une balade nocturne dans la capitale..."
+  },
+  {
+    "title": "Marché Central",
+    "author": "mamaYaya",
+    "content": "Plongée au cœur du commerce kino-congolais."
+  },
+  {
+    "title": "Musique urbaine",
+    "author": "beatmakerCD",
+    "content": "L’influence du ndombolo chez les jeunes."
+  }
+]
+```
+---
+
+## 🔃 Tu peux aussi écrire ce fichier JSON en local avec `writeAsString`
+
+```dart
+Future<void> writeDummyPosts() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/data.json');
+
+  final dummyPosts = [
+    {
+      "title": "Balade à Bandal",
+      "author": "jojoKin",
+      "content": "Entre chikwangues et ambiance locale."
+    },
+    {
+      "title": "Les taxis de Kin",
+      "author": "germainCD",
+      "content": "Un vrai chaos organisé !"
+    }
+  ];
+
+  final jsonString = jsonEncode(dummyPosts);
+  await file.writeAsString(jsonString);
+}
+```
+
+---
+
+## ✅ Résumé des fonctions utilisées
+
+| Fonction / classe                    | Description                                        |
+| ------------------------------------ | -------------------------------------------------- |
+| `getApplicationDocumentsDirectory()` | Accède au dossier privé local à l’application      |
+| `File(path)`                         | Représente un fichier local (à lire ou écrire)     |
+| `readAsString()`                     | Lit le fichier comme une chaîne texte              |
+| `jsonDecode()`                       | Transforme une chaîne JSON en `List`, `Map`, etc.  |
+| `jsonEncode()`                       | (optionnel) Sérialise un objet Dart en JSON        |
+| `writeAsString()`                    | Écrit une chaîne (souvent du JSON) dans le fichier |
+
+---

@@ -1,0 +1,159 @@
+## 🎯 UTILISATION DES PROPRIÉTÉS DE `MaterialApp`
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Stories +243', // 🔹 Nom de l'application (affiché dans le multitâche)
+
+      debugShowCheckedModeBanner: false, // 🔹 Cache le bandeau "DEBUG" en haut à droite
+
+      theme: ThemeData( // 🔹 Thème clair par défaut
+        brightness: Brightness.light,
+        primarySwatch: Colors.indigo,
+      ),
+
+      darkTheme: ThemeData( // 🔹 Thème sombre si activé dans les paramètres du téléphone
+        brightness: Brightness.dark,
+        primarySwatch: Colors.indigo,
+      ),
+
+      themeMode: ThemeMode.system, // 🔹 Utilise le thème système (clair/sombre)
+
+      home: const HomeScreen(), // 🔹 L'écran principal ("/")
+
+      initialRoute: '/', // 🔹 Peut remplacer `home`
+
+      routes: {
+        '/': (context) => const HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/about': (context) => const AboutScreen(),
+      }, // 🔹 Table des routes
+
+      navigatorObservers: [
+        HeroController() // 🔹 Pour les animations Hero entre pages
+      ],
+
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
+      ], // 🔹 Localisation multilingue
+
+      locale: const Locale('fr', 'FR'), // 🔹 Locale par défaut
+
+      restorationScopeId: 'app', // 🔹 Pour la restauration d’état (ex: formulaire non perdu)
+
+      scrollBehavior: const MaterialScrollBehavior(), // 🔹 Personnalisation du scroll (touchpad, souris)
+
+      showPerformanceOverlay: false, // 🔹 Affiche le diagnostic performance si `true`
+    );
+  }
+}
+```
+
+---
+
+## 🎨 COMMENT METTRE UNE IMAGE EN ARRIÈRE-PLAN SUR UN ÉCRAN FLUTTER
+
+### ✅ Méthode 1 : Avec `Stack`
+
+```dart
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // 🔹 Arrière-plan avec une image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/background.jpg', // Assure-toi que l’image est bien déclarée dans pubspec.yaml
+              fit: BoxFit.cover, // 🔹 L’image remplit tout l’espace
+            ),
+          ),
+
+          // 🔹 Contenu au-dessus de l’image
+          Center(
+            child: Container(
+              
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5), // Effet flouté
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                'Bienvenue sur Stories +243',
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+```
+
+### ✅ Méthode 2 : Avec `Container` + `decoration`
+
+```dart
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.jpg'), // 🔹 Image locale
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: const Center(
+          child: Text(
+            'Bienvenue !',
+            style: TextStyle(fontSize: 28, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+⚠️ N'oublie pas de **déclarer l’image** dans `pubspec.yaml` :
+
+```yaml
+flutter:
+  assets:
+    - assets/background.jpg
+```
+
+---
+
+## 📌 RÉCAP DES PROPRIÉTÉS LES PLUS UTILES DE `MaterialApp`
+
+| Propriété                    | Utilité principale                       |
+| ---------------------------- | ---------------------------------------- |
+| `title`                      | Titre système (affiché dans multitâche)  |
+| `home` / `initialRoute`      | Écran de départ (`home` est prioritaire) |
+| `routes`                     | Navigation déclarative                   |
+| `theme`, `darkTheme`         | Apparence générale                       |
+| `themeMode`                  | Mode clair, sombre ou système            |
+| `debugShowCheckedModeBanner` | Cache la bannière debug                  |
+| `navigatorObservers`         | Suivi des transitions (Hero, analytics)  |
+| `locale`, `supportedLocales` | Internationalisation                     |
+| `restorationScopeId`         | Sauvegarde automatique des états         |
+| `scrollBehavior`             | Scroll adaptatif (web, souris, etc.)     |

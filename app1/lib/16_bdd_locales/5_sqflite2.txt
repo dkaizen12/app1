@@ -1,0 +1,206 @@
+Bien sûr ! Voici **le code complet commenté ligne par ligne** pour une application Flutter utilisant **Sqflite**, avec création automatique de la base, insertion, lecture et suppression de données d’un modèle `Dog` :
+
+---
+
+```dart
+import 'package:flutter/material.dart';              // Import de Flutter pour l’UI
+import 'package:sqflite/sqflite.dart';               // Package SQLite pour Flutter
+import 'package:path/path.dart';                     // Pour gérer les chemins (join)
+```
+
+---
+
+### 🔸 Modèle de données `Dog`
+
+```dart
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  const Dog({required this.id, required this.name, required this.age});
+
+  // Convertit un objet Dog en Map (clé/valeurs) pour l’enregistrer en DB
+  Map<String, Object?> toMap() {
+    return {'id': id, 'name': name, 'age': age};
+  }
+
+  // Facilite le debug en affichant l'objet de manière lisible
+  @override
+  String toString() {
+    return 'Dog{id: $id, name: $name, age: $age}';
+  }
+}
+```
+
+---
+
+### 🔸 Base de données et opérations CRUD
+
+```dart
+late Database db; // Référence à la base
+
+// Initialisation de la base, appelée au démarrage
+Future<void> initDb() async {
+  // S’assure que Flutter est bien initialisé
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Chemin de la base sur l’appareil
+  final databasePath = await getDatabasesPath();
+  final path = join(databasePath, 'doggie_database.db');
+
+  // Ouverture ou création de la base si elle n'existe pas encore
+  db = await openDatabase(
+    path,
+    version: 1,
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',
+      );
+    },
+  );
+}
+```
+
+---
+
+### 🔸 Méthodes CRUD (Créer, Lire, Supprimer)
+
+```dart
+// Ajoute un chien dans la base
+Future<void> insertDog(Dog dog) async {
+  await db.insert(
+    'dogs',
+    dog.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace, // Remplace si id déjà présent
+  );
+}
+
+// Récupère tous les chiens depuis la table
+Future<List<Dog>> getDogs() async {
+  final List<Map<String, Object?>> dogMaps = await db.query('dogs');
+
+  // Convertit chaque Map en objet Dog
+  return dogMaps.map((map) => Dog(
+    id: map['id'] as int,
+    name: map['name'] as String,
+    age: map['age'] as int,
+  )).toList();
+}
+
+// Supprime un chien selon son id
+Future<void> deleteDog(int id) async {
+  await db.delete(
+    'dogs',
+    where: 'id = ?',
+    whereArgs: [id], // Prévention contre injection SQL
+  );
+}
+```
+
+---
+
+### 🔸 Interface utilisateur Flutter
+
+```dart
+void main() async {
+  await initDb(); // Initialisation de la base
+  runApp(const MyApp());
+}
+```
+
+---
+
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Dog DB Demo',
+      theme: ThemeData(primarySwatch: Colors.teal),
+      home: const HomePage(),
+    );
+  }
+}
+```
+
+---
+
+### 🔸 Page principale avec ListView
+
+```dart
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+```
+
+```dart
+class _HomePageState extends State<HomePage> {
+  // Ajoute un chien d’exemple
+  Future<void> _addDog() async {
+    final dog = Dog(id: DateTime.now().millisecondsSinceEpoch, name: 'Rex', age: 2);
+    await insertDog(dog);
+    setState(() {}); // Rafraîchit l’écran
+  }
+
+  // Supprime un chien par ID
+  Future<void> _removeDog(int id) async {
+    await deleteDog(id);
+    setState(() {}); // Rafraîchit l’écran
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Liste des chiens')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addDog, // Ajoute un chien
+        child: const Icon(Icons.add),
+      ),
+      body: FutureBuilder<List<Dog>>(
+        future: getDogs(), // Appelle la récupération des chiens
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator()); // En attente
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Erreur: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Aucun chien trouvé.'));
+          }
+
+          final dogs = snapshot.data!;
+          return ListView.builder(
+            itemCount: dogs.length,
+            itemBuilder: (context, index) {
+              final dog = dogs[index];
+              return ListTile(
+                title: Text('${dog.name} (${dog.age} ans)'),
+                subtitle: Text('ID: ${dog.id}'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => _removeDog(dog.id),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+✅ Résumé des fonctionnalités
+
+| Fonction                   | Méthode utilisée              |
+| -------------------------- | ----------------------------- |
+| Créer base et table        | `openDatabase(..., onCreate)` |
+| Ajouter un chien           | `insert()`                    |
+| Lire tous les chiens       | `query()`                     |
+| Supprimer un chien par ID  | `delete()`                    |
+| Gérer UI asynchrone        | `FutureBuilder`               |
+| Rafraîchir UI après action | `setState()`                  |

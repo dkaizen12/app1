@@ -1,0 +1,151 @@
+Bibliothèque de base dans l'initialisation de firebase sur un projet android 
+acceder au site de firebase.google 
+créer son compte sur ce site avec ton gmail 
+créer un projet firebase 
+regarder les methodes d'integration de firebase sur le site en suivant les instructions 
+pour plus d'informations suivé les instructions de cette video 
+lien : https://www.youtube.com/watch?v=_X8WohloeLA
+il donne accès aux services suivant : 
+ * Base de données (`Cloud Firestore`)
+  * Authentification (`Firebase Auth`)
+  * Stockage des médias (`Firebase Storage`)
+  * Notifications (`Firebase Messaging`)
+
+  3. Création d’un projet Firebase
+
+    * Se rendre sur [Firebase Console](https://console.firebase.google.com/)
+    * Créer un projet nommé `stories-kin` ou similaire
+    * Ajouter une application **Android**
+
+        * Nom du package : `com.upc.storieskin` (doit correspondre au `AndroidManifest.xml`)
+        * Télécharger et placer le fichier `google-services.json` dans :
+          👉 `android/app/google-services.json`
+
+4. **Ajout des dépendances Firebase dans `pubspec.yaml`**
+
+```yaml
+dependencies:
+  firebase_core: ^2.0.0
+  firebase_auth: ^4.0.0
+  cloud_firestore: ^4.0.0
+  firebase_storage: ^11.0.0
+  firebase_messaging: ^14.0.0
+  provider: ^6.0.0
+  shared_preferences: ^2.0.0
+  fluttertoast: ^8.2.0
+  google_sign_in: ^6.0.0
+```
+Configuration du projet Android (`android/app/build.gradle`)
+```gradle
+apply plugin: 'com.google.gms.google-services'
+
+android {
+  // ...
+  defaultConfig {
+    applicationId "com.upc.storieskin"
+    minSdkVersion 21
+    // ...
+  }
+}
+
+dans main.dart : 
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+// ...
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
+
+dans firebase_option : 
+import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
+/// Default [FirebaseOptions] for use with your Firebase apps.
+///
+/// Example:
+/// ```dart
+import 'firebase_options.dart';
+/// // ...
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
+/// ```
+class DefaultFirebaseOptions {
+  static FirebaseOptions get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        return windows;
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
+    }
+  }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAVU1LYiEvdnbsCVRtz56LsU_EF-k4R0wg',
+    appId: '1:824495606100:web:83c8d4fed9f33ff8a3a0c1',
+    messagingSenderId: '824495606100',
+    projectId: 'projet-upc1',
+    authDomain: 'projet-upc1.firebaseapp.com',
+    storageBucket: 'projet-upc1.firebasestorage.app',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBppzMIghCeLn_CKuYf8H-oo8RkqHsnmqE',
+    appId: '1:824495606100:android:bc677a4546982096a3a0c1',
+    messagingSenderId: '824495606100',
+    projectId: 'projet-upc1',
+    storageBucket: 'projet-upc1.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAl5DKzFfLW0OVCunw5jlx8uLugbbHT-q8',
+    appId: '1:824495606100:ios:2ca02cad98bd0f3fa3a0c1',
+    messagingSenderId: '824495606100',
+    projectId: 'projet-upc1',
+    storageBucket: 'projet-upc1.firebasestorage.app',
+    iosBundleId: 'com.example.projetUpc1',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAl5DKzFfLW0OVCunw5jlx8uLugbbHT-q8',
+    appId: '1:824495606100:ios:2ca02cad98bd0f3fa3a0c1',
+    messagingSenderId: '824495606100',
+    projectId: 'projet-upc1',
+    storageBucket: 'projet-upc1.firebasestorage.app',
+    iosBundleId: 'com.example.projetUpc1',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAVU1LYiEvdnbsCVRtz56LsU_EF-k4R0wg',
+    appId: '1:824495606100:web:887f9a5fe3dd6718a3a0c1',
+    messagingSenderId: '824495606100',
+    projectId: 'projet-upc1',
+    authDomain: 'projet-upc1.firebaseapp.com',
+    storageBucket: 'projet-upc1.firebasestorage.app',
+  );
+}
+fichier géneré automatiquement à la fin de la configuration de firebase 
+(n'oubliez pas d'installer node js le CLI et le ndk recommandé )

@@ -1,0 +1,371 @@
+Oui, bien sûr ! Voici un **exemple Flutter simple et clair** d'une interface avec :
+
+✅ Un `Scaffold`
+✅ Un `Drawer` (menu latéral)
+✅ Un `IconButton` dans l'`AppBar` qui **ouvre le `Drawer` manuellement** (pas besoin de glisser)
+
+---
+
+### ✅ Code complet avec commentaires
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Drawer avec IconButton',
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Une clé globale pour accéder au Scaffold et pouvoir ouvrir le Drawer depuis IconButton
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+    return Scaffold(
+      key: scaffoldKey, // Utilisation de la clé
+      appBar: AppBar(
+        title: const Text("Drawer manuel"),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            // Ouvre le menu drawer quand on clique sur le bouton menu
+            scaffoldKey.currentState?.openDrawer();
+          },
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Menu Principal', style: TextStyle(color: Colors.white, fontSize: 24)),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Accueil'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Paramètres'),
+            ),
+          ],
+        ),
+      ),
+      body: const Center(
+        child: Text('Contenu principal'),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### 🔎 Points clés :
+
+* On utilise une **`GlobalKey<ScaffoldState>`** pour manipuler le `Scaffold` de l’extérieur.
+* Le `Drawer` est ouvert via `scaffoldKey.currentState?.openDrawer()` quand on clique sur le bouton `menu`.
+* `leading: IconButton(...)` dans l’`AppBar` remplace l’icône par défaut du drawer.
+
+Cet exemple montre comment créer un Scaffold qui contient une AppBar et un tiroir. L’utilisateur appuie sur l’icône « menu » dans la barre d’application pour ouvrir le tiroir. Le tiroir affiche quatre éléments : un en-tête et trois éléments de menu. Le tiroir affiche les quatre éléments à l’aide d’une ListView, qui permet à la l’utilisateur pour faire défiler les éléments si nécessaire
+
+import 'package:flutter/material.dart';
+
+/// Flutter code sample for [Drawer].
+
+void main() => runApp(const DrawerApp());
+
+class DrawerApp extends StatelessWidget {
+  const DrawerApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: DrawerExample());
+  }
+}
+
+class DrawerExample extends StatefulWidget {
+  const DrawerExample({super.key});
+
+  @override
+  State<DrawerExample> createState() => _DrawerExampleState();
+}
+
+class _DrawerExampleState extends State<DrawerExample> {
+  String selectedPage = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Drawer Example')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Drawer Header', style: TextStyle(color: Colors.white, fontSize: 24)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('Messages'),
+              onTap: () {
+                setState(() {
+                  selectedPage = 'Messages';
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Profile'),
+              onTap: () {
+                setState(() {
+                  selectedPage = 'Profile';
+                });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                setState(() {
+                  selectedPage = 'Settings';
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Center(child: Text('Page: $selectedPage')),
+    );
+  }
+}
+Cet exemple montre comment migrer le tiroir ci-dessus vers un NavigationDrawer.
+
+import 'package:flutter/material.dart';
+
+/// Flutter code sample for [NavigationDrawer].
+
+void main() => runApp(const NavigationDrawerApp());
+
+class ExampleDestination {
+  const ExampleDestination(this.label, this.icon, this.selectedIcon);
+
+  final String label;
+  final Widget icon;
+  final Widget selectedIcon;
+}
+
+const List<ExampleDestination> destinations = <ExampleDestination>[
+  ExampleDestination('Messages', Icon(Icons.widgets_outlined), Icon(Icons.widgets)),
+  ExampleDestination('Profile', Icon(Icons.format_paint_outlined), Icon(Icons.format_paint)),
+  ExampleDestination('Settings', Icon(Icons.settings_outlined), Icon(Icons.settings)),
+];
+
+class NavigationDrawerApp extends StatelessWidget {
+  const NavigationDrawerApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(debugShowCheckedModeBanner: false, home: NavigationDrawerExample());
+  }
+}
+
+class NavigationDrawerExample extends StatefulWidget {
+  const NavigationDrawerExample({super.key});
+
+  @override
+  State<NavigationDrawerExample> createState() => _NavigationDrawerExampleState();
+}
+
+class _NavigationDrawerExampleState extends State<NavigationDrawerExample> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  int screenIndex = 0;
+  late bool showNavigationDrawer;
+
+  void handleScreenChanged(int selectedScreen) {
+    setState(() {
+      screenIndex = selectedScreen;
+    });
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  Widget buildBottomBarScaffold() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[Text('Page Index = $screenIndex')],
+        ),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: screenIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            screenIndex = index;
+          });
+        },
+        destinations:
+            destinations.map((ExampleDestination destination) {
+              return NavigationDestination(
+                label: destination.label,
+                icon: destination.icon,
+                selectedIcon: destination.selectedIcon,
+                tooltip: destination.label,
+              );
+            }).toList(),
+      ),
+    );
+  }
+
+  Widget buildDrawerScaffold(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      body: SafeArea(
+        bottom: false,
+        top: false,
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: NavigationRail(
+                minWidth: 50,
+                destinations:
+                    destinations.map((ExampleDestination destination) {
+                      return NavigationRailDestination(
+                        label: Text(destination.label),
+                        icon: destination.icon,
+                        selectedIcon: destination.selectedIcon,
+                      );
+                    }).toList(),
+                selectedIndex: screenIndex,
+                useIndicator: true,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    screenIndex = index;
+                  });
+                },
+              ),
+            ),
+            const VerticalDivider(thickness: 1, width: 1),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text('Page Index = $screenIndex'),
+                  ElevatedButton(onPressed: openDrawer, child: const Text('Open Drawer')),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      endDrawer: NavigationDrawer(
+        onDestinationSelected: handleScreenChanged,
+        selectedIndex: screenIndex,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+            child: Text('Header', style: Theme.of(context).textTheme.titleSmall),
+          ),
+          ...destinations.map((ExampleDestination destination) {
+            return NavigationDrawerDestination(
+              label: Text(destination.label),
+              icon: destination.icon,
+              selectedIcon: destination.selectedIcon,
+            );
+          }),
+          const Padding(padding: EdgeInsets.fromLTRB(28, 16, 28, 10), child: Divider()),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showNavigationDrawer = MediaQuery.of(context).size.width >= 450;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return showNavigationDrawer ? buildDrawerScaffold(context) : buildBottomBarScaffold();
+  }
+}
+
+Pour désactiver le balayage du bord du tiroir sur mobile, définissez Scaffold.drawerEnableOpenDragGesture sur false. Ensuite, utilisez ScaffoldState.openDrawer pour ouvrir le tiroir et Navigator.pop pour fermer il.
+import 'package:flutter/material.dart';
+
+/// Flutter code sample for [Scaffold.drawer].
+
+void main() => runApp(const DrawerExampleApp());
+
+class DrawerExampleApp extends StatelessWidget {
+  const DrawerExampleApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: DrawerExample());
+  }
+}
+
+class DrawerExample extends StatefulWidget {
+  const DrawerExample({super.key});
+
+  @override
+  State<DrawerExample> createState() => _DrawerExampleState();
+}
+
+class _DrawerExampleState extends State<DrawerExample> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
+  void _closeDrawer() {
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(title: const Text('Drawer Demo')),
+      body: Center(child: ElevatedButton(onPressed: _openDrawer, child: const Text('Open Drawer'))),
+      drawer: Drawer(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('This is the Drawer'),
+              ElevatedButton(onPressed: _closeDrawer, child: const Text('Close Drawer')),
+            ],
+          ),
+        ),
+      ),
+      // Disable opening the drawer with a swipe gesture.
+      drawerEnableOpenDragGesture: false,
+    );
+  }
+}

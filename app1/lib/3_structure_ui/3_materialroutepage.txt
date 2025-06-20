@@ -1,0 +1,243 @@
+### ✅ Exemple complet d'utilisation de `MaterialPageRoute`
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+/// Application Flutter avec Material Design
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MaterialPageRoute Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const HomePage(),
+    );
+  }
+}
+
+/// Page d'accueil de l'application
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Accueil")),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text("Aller à la page suivante"),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<String>(
+                builder: (context) => const SecondPage(),
+                settings: const RouteSettings(
+                  name: "/second",
+                  arguments: "Données optionnelles",
+                ),
+                fullscreenDialog: true, // Effet "dialogue plein écran" sur iOS
+                maintainState: true, // Laisse l’état en mémoire
+                // barrierDismissible: true, // Utile si Modal, sinon sans effet ici
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+/// Deuxième page à afficher via MaterialPageRoute
+class SecondPage extends StatelessWidget {
+  const SecondPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Récupère les données envoyées via settings.arguments
+    final route = ModalRoute.of(context);
+    final arguments = route?.settings.arguments;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Page 2"),
+        automaticallyImplyLeading: true, // Affiche le bouton de retour
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Bienvenue sur la page 2 !"),
+            const SizedBox(height: 20),
+            Text("Arguments reçus : $arguments"),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                // Retour en envoyant une valeur de retour
+                Navigator.pop(context, "Retour depuis page 2");
+              },
+              child: const Text("Retour avec résultat"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+### 📌 Propriétés de `MaterialPageRoute` utilisées ici
+
+| Propriété            | Effet                                                          |
+| -------------------- | -------------------------------------------------------------- |
+| `builder`            | Obligatoire, retourne le widget de destination                 |
+| `settings`           | Définit un nom de route et des arguments (`RouteSettings`)     |
+| `fullscreenDialog`   | Change la transition iOS pour un effet "dialogue plein écran"  |
+| `maintainState`      | Maintient l’état de la page même si elle est masquée           |
+| `barrierDismissible` | (utile pour un `ModalRoute`) permet de fermer en tapant à côté |
+
+---
+
+### 💡 Astuce
+
+Tu peux aussi utiliser `.then((value) => ...)` pour récupérer le résultat envoyé par `Navigator.pop(...)` :
+
+```dart
+Navigator.of(context).push(...).then((result) {
+  print("Résultat : $result");
+});
+```
+
+Super ! Voici un **exemple complet en Flutter** qui montre comment créer une **transition personnalisée entre deux pages** en utilisant **`PageRouteBuilder`** au lieu de `MaterialPageRoute`. Tu pourras ainsi contrôler la **durée**, **la courbe d’animation**, et **l’effet de transition** (slide, fade, scale, rotation, etc.).
+
+---
+
+## ✅ Exemple avec `PageRouteBuilder` (transition personnalisée)
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+/// 🌟 Application principale
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Custom Route Demo',
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+    );
+  }
+}
+
+/// 🏠 Page d'accueil avec bouton de navigation
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Page d'accueil")),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(_createRoute());
+          },
+          child: const Text('Aller à la page suivante'),
+        ),
+      ),
+    );
+  }
+
+  /// 🌈 Création d'une route personnalisée
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const SecondPage(),
+      transitionDuration: const Duration(milliseconds: 600), // ⏱️ Durée de la transition
+      reverseTransitionDuration: const Duration(milliseconds: 400),
+
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        // Exemple 1 : Slide transition
+        const begin = Offset(1.0, 0.0); // Commence à droite
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        final tween = Tween(begin: begin, end: end).chain(
+          CurveTween(curve: curve),
+        );
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+
+        // Exemple 2 : Fade transition
+        // return FadeTransition(opacity: animation, child: child);
+
+        // Exemple 3 : Scale transition
+        // return ScaleTransition(scale: animation, child: child);
+      },
+    );
+  }
+}
+
+/// 🧭 Deuxième page à afficher
+class SecondPage extends StatelessWidget {
+  const SecondPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Deuxième Page")),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Retour'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+## 🔍 Explication
+
+| Élément                   | Description                                                 |
+| ------------------------- | ----------------------------------------------------------- |
+| `PageRouteBuilder`        | Crée une route personnalisée au lieu de `MaterialPageRoute` |
+| `pageBuilder`             | Retourne le widget de destination                           |
+| `transitionsBuilder`      | Définit la transition visuelle entre les pages              |
+| `animation` / `secondary` | Valeurs d’animation utilisées pour construire l’effet       |
+| `SlideTransition`         | Applique un glissement de droite à gauche                   |
+| `FadeTransition`          | Applique une animation de fondu (opacité)                   |
+| `ScaleTransition`         | Applique un effet de zoom/agrandissement                    |
+
+---
+
+### 🔄 Tu peux remplacer `SlideTransition` par d'autres effets :
+
+```dart
+// Fade
+return FadeTransition(opacity: animation, child: child);
+
+// Zoom
+return ScaleTransition(scale: animation, child: child);
+
+// Rotation
+return RotationTransition(turns: animation, child: child);
+```

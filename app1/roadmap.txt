@@ -7,7 +7,7 @@
 ### 🟢 Débutant (Fondations Flutter)
 ### 📦 Widgets de base Flutter (structurés et enrichis)
 
-## 🎨 1. **Structure de l'UI**
+## 🎨 1. Structure de l'UI
 
 | Widget        | Description                                                                    |
 | ------------- | ------------------------------------------------------------------------------ |
@@ -16,7 +16,7 @@
 | `AppBar`      | Barre d’en-tête contenant titre, actions, menus…                               |
 | `Builder`     | Permet d’obtenir un `BuildContext` distinct, souvent utile pour context local. |
 
-## 🧱 2. **Widgets de disposition (layout)**
+## 🧱 2. Widgets de disposition (layout)
 
 | Widget                 | Description                                                 |
 | ---------------------- | ----------------------------------------------------------- |
@@ -34,7 +34,7 @@
 | `MediaQuery`           | Accès aux dimensions de l’écran.                            |
 | `LayoutBuilder`        | Permet des mises en page adaptatives.                       |
 
-## ✏️ 3. **Widgets de texte**
+## ✏️ 3. Widgets de texte
 
 | Widget             | Description                                                        |
 | ------------------ | ------------------------------------------------------------------ |
@@ -45,7 +45,7 @@
 | `DefaultTextStyle` | Style par défaut hérité par tous les enfants `Text`.               |
 | `TextStyle`        | Objet de configuration pour la police, la couleur, la taille, etc. |
 
-## 🎛️ 4. **Widgets de bouton**
+## 🎛️ 4. Widgets de bouton
 
 | Type             | Widget                      | Usage principal                         |
 | ---------------- | --------------------------- | --------------------------------------- |
@@ -63,7 +63,7 @@
 | Personnalisé     | `RawMaterialButton`         | Entièrement personnalisable             |
 | Bas niveau       | `GestureDetector`           | Créer ses propres interactions          |
 
-## 🧾 5. **Formulaires & Champs de saisie**
+## 🧾 5. Formulaires & Champs de saisie
 
 | Widget                       | Description                                   |
 | ---------------------------- | --------------------------------------------- |
@@ -110,7 +110,7 @@ Sélection multiple
 | `ExpansionTile` + `RadioListTile`     | Liste repliable avec options                           |
 | `BottomSheet`, `Dialog`, `Stepper`    | Interfaces contextuelles pour sélectionner des options |
 
-## ✉️ 7. **Messages et alertes**
+## ✉️ 7. Messages et alertes
 
 | Widget                 | Description                                    |
 | ---------------------- | ---------------------------------------------- |
@@ -125,7 +125,7 @@ Sélection multiple
 | `BottomSheet`          | Fenêtre modale depuis le bas de l’écran        |
 | `Banner`               | Label contextuel ou message visuel flottant    |
 
-## 🛠️ 8. **Autres entrées interactives**
+## 🛠️ 8. Autres entrées interactives
 
 | Widget                      | Description                                    |
 | --------------------------- | ---------------------------------------------- |
@@ -140,7 +140,7 @@ Sélection multiple
 | `file_picker` (package)     | Sélection de fichiers (non natif)              |
 | `dropdown_search` (package) | Liste déroulante multichoix avec recherche     |
 
-## ⚙️ 9. **Widgets dynamiques et réactifs**
+## ⚙️ 9. Widgets dynamiques et réactifs
 
 | Widget                                          | Description                            |
 | ----------------------------------------------- | -------------------------------------- |
@@ -150,7 +150,7 @@ Sélection multiple
 | `Listenable`, `ValueNotifier`, `ChangeNotifier` | Systèmes réactifs légers               |
 | `ValueListenableBuilder`, `AnimatedBuilder`     | Construction réactive basée sur valeur |
 
-## 🧠 10. **Gestion d’état**
+## 🧠 10. Gestion d’état
 
 | Niveau           | Outils                                                 |
 | ---------------- | ------------------------------------------------------ |
@@ -159,7 +159,7 @@ Sélection multiple
 | Global (simple)  | `Provider`, `Riverpod`, `ChangeNotifier`               |
 | Global (réactif) | `BLoC`, `Cubit`, `GetX`, `MobX`                        |
 
-## 🌍 11. **Navigation**
+## 🌍 11. Navigation
 
 | Type              | Widgets & Fonctions                   |
 | ----------------- | ------------------------------------- |
